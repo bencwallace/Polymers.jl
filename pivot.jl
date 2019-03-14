@@ -14,9 +14,10 @@ function pivot(polymer, index, Rot)
 	steps = length(polymer)
 	point = polymer[index]		# Pivot point
 
-	init_segment = polymer[1:index]
+	init_segment = Set(polymer[1:index])
 	new_polymer = copy(polymer)
 
+	# Try to parallelize this
 	for i in index+1:steps
 		new_point = point + Rot * (polymer[i] - point)
 		if new_point in init_segment
@@ -47,9 +48,11 @@ end
 
 
 function mix(polymer, iter, callbacks=[], seed=nothing)
+	interval = 10 ^ floor(log10(iter / 10))
+
 	for i in 0:iter-1
 		# Diagnostics
-		if i % 1000 == 0
+		if i % interval == 0
 			print("Iteration $i\t")
 			if !isempty(callbacks)
 				print("Callbacks: ")
