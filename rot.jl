@@ -24,12 +24,13 @@ function rand_lattice_rot(dim, seed=nothing)
 end
 
 
+# Fast in high dimensions. Not using this for now
 function fast_rand_lattice_rot(vector, seed=nothing)
+	vector = copy(vector)
+
 	if !isequal(seed, nothing)
 		Random.seed!(seed)
 	end
-
-	vector = copy(vector)
 
 	# Sample random plane of rotation
 	dim = length(vector)

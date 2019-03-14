@@ -48,6 +48,11 @@ end
 
 
 function mix(polymer, iter, callbacks=[], seed=nothing)
+	# Need an initial seed
+	if isequal(seed, nothing)
+		seed = rand(Int)
+	end
+
 	interval = 10 ^ floor(log10(iter / 10))
 
 	for i in 0:iter-1
@@ -63,11 +68,9 @@ function mix(polymer, iter, callbacks=[], seed=nothing)
 			end
 		end
 
-		# Apply random pivot
-		if !isequal(seed, nothing)
-			seed += i
-		end
+		# Apply random pivot and increment seed
 		polymer = rand_pivot(polymer, seed)
+		seed += 1
 	end
 
 	return polymer
