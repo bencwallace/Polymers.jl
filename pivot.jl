@@ -50,7 +50,7 @@ end
 function mix(polymer, iter, callbacks=[], seed=nothing)
 	# Need an initial seed
 	if isequal(seed, nothing)
-		seed = rand(Int)
+		seed = rand(UInt)
 	end
 
 	interval = 10 ^ floor(log10(iter / 10))
