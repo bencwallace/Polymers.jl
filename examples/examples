@@ -1,5 +1,9 @@
 anim_100_1000_pre_1000.gif
 -100 frames
 -1000 steps
--initialized with line mixed for 1000 steps
+-initialized with result from mixing line for 1000 steps
 
+plot_10000_10000.png
+-10 000 steps
+-initialized with line
+-mixed for 10 000 iterations
