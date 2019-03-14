@@ -46,12 +46,21 @@ function rand_pivot(polymer, seed=nothing)
 end
 
 
-function mix(polymer, iter, seed=nothing)
-	for i in 1:iter
+function mix(polymer, iter, callbacks=[], seed=nothing)
+	for i in 0:iter-1
+		# Diagnostics
 		if i % 1000 == 0
-			print("Iteration $i\n")
+			print("Iteration $i\t")
+			if !isempty(callbacks)
+				print("Callbacks: ")
+				for item in callbacks
+					print(item(polymer), '\t')
+				end
+				print('\n')
+			end
 		end
 
+		# Apply random pivot
 		if !isequal(seed, nothing)
 			seed += i
 		end
