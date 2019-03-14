@@ -48,6 +48,10 @@ end
 
 function mix(polymer, iter, seed=nothing)
 	for i in 1:iter
+		if i % 1000 == 0
+			print("Iteration $i\n")
+		end
+
 		if !isequal(seed, nothing)
 			seed += i
 		end
