@@ -7,29 +7,21 @@ function rand_lattice_rot(dim, seed=nothing)
 		seed = rand(UInt)
 	end
 
-	# Sample random non-trivial multiple of pi/2
+	# Sample (cos, sin) pair for rotation by non-trivial multiple of π/2
 	Random.seed!(seed)
-	theta = rand(1:3) * (π / 2)
+	costheta, sintheta = rand([(0, 1), (-1, 0), (0, -1)])
 
-	# Build 2-dimensional rotation by angle theta. Return if dim == 2
-	c = cos(theta)
-	s = sin(theta)
-	rot2d = [c s; -s c]
-	if dim == 2
-		return round.(rot2d)
-	end
+	# Initialize trivial rotation matrix
+	Rot = Matrix{Int}(I, dim, dim)
 
-	# Embed into dim dimensions
-	Rot = [rot2d zeros(2, dim - 2); zeros(dim - 2, 2) Matrix(I, dim - 2, dim - 2)]
+	# Randomly insert 2-dimensional rotation into Rot
+	# Equivalent to randomly permuting xy rotation matrix
+	i = rand(1:dim)
+	j = rand(setdiff(1:dim, i))
 
-	# Permute rows and columns (by same permutation)
-	Random.seed!(seed)
-	new_rows = shuffle([Rot[i, :]' for i in 1:dim])
-	Rot = vcat(new_rows...)
+	Rot[i, i] = Rot[j, j] = costheta
+	Rot[i, j] = sintheta
+	Rot[j, i] = -sintheta
 
-	Random.seed!(seed)
-	new_cols = shuffle([Rot[:, i] for i in 1:dim])
-	Rot = hcat(new_cols...)
-
-	return round.(Rot)
+	return Rot
 end
