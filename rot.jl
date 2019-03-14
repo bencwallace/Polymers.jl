@@ -2,13 +2,10 @@ using LinearAlgebra		# Needed for I but missing in doc
 using Random
 
 function rand_lattice_rot(dim, seed=nothing)
-	# Get random seed if none provided
-	if isequal(seed, nothing)
-		seed = rand(UInt)
-	end
-
 	# Sample (cos, sin) pair for rotation by non-trivial multiple of π/2
-	Random.seed!(seed)
+	if !isequal(seed, nothing)
+		Random.seed!(seed)
+	end
 	costheta, sintheta = rand([(0, 1), (-1, 0), (0, -1)])
 
 	# Initialize trivial rotation matrix
@@ -24,4 +21,35 @@ function rand_lattice_rot(dim, seed=nothing)
 	Rot[j, i] = -sintheta
 
 	return Rot
+end
+
+
+function fast_rand_lattice_rot(vector, seed=nothing)
+	if !isequal(seed, nothing)
+		Random.seed!(seed)
+	end
+
+	vector = copy(vector)
+
+	# Sample random plane of rotation
+	dim = length(vector)
+	i = rand(1:dim)
+	j = rand(setdiff(1:dim, i))
+
+	# Sample random non-trivial planar rotation (3 options)
+	rot = rand(1:3)
+	temp = vector[i]
+
+	if rot == 1
+		vector[i] = -vector[i]
+		vector[j] = -vector[j]
+	elseif rot == 2
+		vector[i] = vector[j]
+		vector[j] = -temp
+	else
+		vector[i] = -vector[j]
+		vector[j] = temp
+	end
+
+	return vector
 end
