@@ -7,21 +7,25 @@ function dist(polymer)
 end
 
 
-function poly_plot(polymer)
+function poly_plot(polymer; legend=false, grid=false, showaxis=false, kwargs...)
 	x = [item[1] for item in polymer]
 	y = [item[2] for item in polymer]
 
-	plot(x, y, legend=false)
+	plot(x, y, legend=legend, grid=grid, showaxis=showaxis, kwargs...)
 end
 
 
-function anim(num_frames, steps, seed=nothing)
+function anim(num_frames, init, file="./temp_polymer_anim.gif", seed=nothing)
 	# Need an initial seed
 	if isequal(seed, nothing)
-		seed = rand(Int)
+		seed = rand(UInt)
 	end
 
-	poly = line(steps)
+	if isa(init, Int)
+		poly = line(init)
+	else
+		poly = init
+	end
 
 	anim = Animation()
 	poly_plot(poly)
@@ -31,16 +35,15 @@ function anim(num_frames, steps, seed=nothing)
 		seed += 1
 		new_poly = rand_pivot(poly, seed)
 
+		# Only add new frames
 		if new_poly != poly
 			poly = new_poly
 			poly_plot(poly)
 			frame(anim)
-			continue
+		else
+			i -= 1
 		end
-
-		# No frame added if this point reached
-		i -= 1
 	end
 
-	gif(anim, "./test.gif", fps=2)
+	gif(anim, file, fps=2)
 end
