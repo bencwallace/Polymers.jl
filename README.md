@@ -12,8 +12,8 @@ My other repository, [*saw*](https://github.com/bencwallace/saw) includes a Pyth
 
 This implementation of the pivot algorithm is optimized in the following ways.
 
-* Lattice rotations are represented as `SparseArray` objects. Matrix multiplication by a sparse array can be performed in linear (rather than quadratic) time in the dimension and must be performed a linear (in the number of steps) number of times *per iteration*. In addition, sparse arrays require much less memory.
-* The initial (un-pivoted) segment of a walk is converted to a `Set` object, which is a type of hash table, allowing for constant time lookups (as opposed to linear or, at best, logarithmic time for searching an array or list). Each iteration of the pivot algorithm requires a linear (in the number of steps) number of lookups to check for intersections.
+* Lattice rotations are represented as `SparseArray` objects. Matrix multiplication by a sparse array can be performed in linear (rather than quadratic) time (in the dimension). The pivot algorithm performs linearly many (in the number of polymer steps) matrix multiplications *per iteration*. An additional advantage of sparse arrays is that they require far less memory.
+* Prior to pivoting, the initial (un-pivoted) segment of a walk is converted to a `Set` object, which is a type of hash table, allowing for constant time lookups (as opposed to linear or, at best, logarithmic time for searching an array or list). The conversion itself requires linear time but need only be performed once (per iteration), whereas a linear number of lookups is required. Thus, the speedup per iteration is from quadratic (or at least super-linear) to linear time.
 
 The following optimization would also be desirable.
 

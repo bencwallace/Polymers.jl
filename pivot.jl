@@ -10,15 +10,15 @@ function line(steps, dim=2)
 end
 
 
-function pivot(polymer, index, Rot)
+function pivot(polymer, step, Rot)
 	steps = length(polymer)
-	point = polymer[index]		# Pivot point
+	point = polymer[step]		# Pivot point
 
-	init_segment = Set(polymer[1:index])
+	init_segment = Set(polymer[1:step])
 	new_polymer = copy(polymer)
 
 	# Try to parallelize this
-	for i in index+1:steps
+	for i in step+1:steps
 		new_point = point + Rot * (polymer[i] - point)
 		if new_point in init_segment
 			return polymer
@@ -35,15 +35,15 @@ function rand_pivot(polymer, seed=nothing)
 	steps = length(polymer)
 	dim = length(polymer[1])
 
-	# Sample random pivot point index and rotation
+	# Sample random pivot point step and rotation
 	if !isequal(seed, nothing)
 		Random.seed!(seed)
 	end
-	index = rand(2:steps-1)		# Exclude trivial pivot points
+	step = rand(2:steps-1)		# Exclude trivial pivot points
 	Rot = rand_lattice_rot(dim, seed)
 
 	# Apply Pivot
-	new_polymer = pivot(polymer, index, Rot)
+	new_polymer = pivot(polymer, step, Rot)
 	return new_polymer
 end
 
