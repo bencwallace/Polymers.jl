@@ -1,5 +1,6 @@
 using LinearAlgebra		# Needed for I but missing in doc
 using Random
+using SparseArrays
 
 function rand_lattice_rot(dim, seed=nothing)
 	# Sample (cos, sin) pair for rotation by non-trivial multiple of π/2
@@ -9,7 +10,7 @@ function rand_lattice_rot(dim, seed=nothing)
 	costheta, sintheta = rand([(0, 1), (-1, 0), (0, -1)])
 
 	# Initialize trivial rotation matrix
-	Rot = Matrix{Int}(I, dim, dim)
+	Rot = sparse(Diagonal(ones(dim)))
 
 	# Randomly insert 2-dimensional rotation into Rot
 	# Equivalent to randomly permuting xy rotation matrix
@@ -24,7 +25,7 @@ function rand_lattice_rot(dim, seed=nothing)
 end
 
 
-# Fast in high dimensions. Not using this for now
+# Deprecated due to efficient implementation of sparse matrix above
 function fast_rand_lattice_rot(vector, seed=nothing)
 	vector = copy(vector)
 
