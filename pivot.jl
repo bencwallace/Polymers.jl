@@ -23,6 +23,7 @@ function pivot(polymer, index, Rot)
 		if new_point in init_segment
 			return polymer
 		end
+
 		new_polymer[i] = new_point
 	end
 
@@ -41,7 +42,7 @@ function rand_pivot(polymer, seed=nothing)
 	index = rand(2:steps-1)		# Exclude trivial pivot points
 	Rot = rand_lattice_rot(dim, seed)
 
-	# Apply pivot
+	# Apply Pivot
 	new_polymer = pivot(polymer, index, Rot)
 	return new_polymer
 end
