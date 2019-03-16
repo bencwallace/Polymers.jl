@@ -1,9 +1,18 @@
 anim_100_1000_pre_1000.gif
+-2 dimensions
 -100 frames
 -1000 steps
 -initialized with result from mixing line for 1000 steps
 
-plot_10000_10000.png
+plot_10000_100000.png
+-2 dimensions
 -10 000 steps
 -initialized with line
--mixed for 10 000 iterations
+-100 000 iterations
+
+plot3d_10000_100000.png
+-generated from poly3d_10000_100000.jld
+-3 dimensions
+-10 000 steps
+-initialized with line
+-100 000 iterations
