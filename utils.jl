@@ -8,10 +8,10 @@ end
 
 
 function poly_plot(polymer; legend=false, grid=false, showaxis=false, kwargs...)
-	x = [item[1] for item in polymer]
-	y = [item[2] for item in polymer]
+	dim = length(polymer[1])
 
-	plot(x, y, legend=legend, grid=grid, showaxis=showaxis, kwargs...)
+	coords = [[item[i] for item in polymer] for i = 1:dim]
+	plot(coords...; legend=legend, grid=grid, showaxis=showaxis, kwargs...)
 end
 
 
