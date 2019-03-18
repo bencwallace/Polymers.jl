@@ -23,5 +23,5 @@ Once JLD is installed, a polymer can be loaded as follows:
 using JLD
 
 # Replace "poly2d_10000_100000.jld" by desired jld file
-poly = load("poly2d_10000_100000.jld")["poly"]
+poly = load("poly2d_10000_100000.jld")["poly"];
 ```

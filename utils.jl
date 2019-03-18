@@ -7,6 +7,7 @@ function dist(polymer)
 end
 
 
+# Could also set foreground_color_text=:white
 function poly_plot(polymer; legend=false, grid=false, showaxis=false, kwargs...)
 	dim = length(polymer[1])
 
@@ -16,7 +17,7 @@ end
 
 
 function anim(num_frames, init, file="./temp_polymer_anim.gif", seed=nothing)
-	# Need an initial seed
+	# Initialize default arguments
 	if isequal(seed, nothing)
 		seed = rand(UInt)
 	end
@@ -27,10 +28,12 @@ function anim(num_frames, init, file="./temp_polymer_anim.gif", seed=nothing)
 		poly = init
 	end
 
+	# Initialize animation with first frame
 	anim = Animation()
-	poly_plot(poly)
+	poly_plot(poly; kwargs...)
 	frame(anim)
 
+	# Build animation
 	for i = 1:num_frames
 		seed += 1
 		new_poly = rand_pivot(poly, seed)
@@ -38,7 +41,7 @@ function anim(num_frames, init, file="./temp_polymer_anim.gif", seed=nothing)
 		# Only add new frames
 		if new_poly != poly
 			poly = new_poly
-			poly_plot(poly)
+			poly_plot(poly; kwargs...)
 			frame(anim)
 		else
 			i -= 1
