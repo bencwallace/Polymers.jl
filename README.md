@@ -78,3 +78,10 @@ Produce an animation of the pivot algorithm run for 100 *successful* steps and s
 ```julia
 anim(100, line(100), "pivot_anim.gif")
 ```
+
+## To do
+
+Generate higher-quality (preferably vector) graphics. The following packages may be useful:
+
+* [Gadfly.jl](http://gadflyjl.org/stable/)
+* [Luxor.jl](http://juliagraphics.github.io/Luxor.jl/stable/)

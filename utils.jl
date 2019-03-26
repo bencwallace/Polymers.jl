@@ -8,11 +8,12 @@ end
 
 
 # Could also set foreground_color_text=:white
-function poly_plot(polymer; legend=false, grid=false, showaxis=false, kwargs...)
+function poly_plot(polymer; kwargs...)
 	dim = length(polymer[1])
 
 	coords = [[item[i] for item in polymer] for i = 1:dim]
-	plot(coords...; legend=legend, grid=grid, showaxis=showaxis, kwargs...)
+	plot(coords...; legend=false, grid=false, showaxis=false, foreground_color_text=:white,
+		 kwargs...)
 end
 
 
