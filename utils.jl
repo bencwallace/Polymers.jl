@@ -1,4 +1,5 @@
 using Plots
+using Gadfly
 include("pivot.jl")
 
 
@@ -7,17 +8,26 @@ function dist(polymer)
 end
 
 
-# Could also set foreground_color_text=:white
-function poly_plot(polymer; kwargs...)
+function poly_plot(polymer, svg=false; kwargs...)
 	dim = length(polymer[1])
 
 	coords = [[item[i] for item in polymer] for i = 1:dim]
-	plot(coords...; legend=false, grid=false, showaxis=false, foreground_color_text=:white,
-		 kwargs...)
+
+	if isequal(svg, true)
+		x = coords[1]
+		y = coords[2]
+
+		# If p is the value returned by the following line, draw p with
+		# p |> SVG("name.svg")
+		return Gadfly.plot(x=x, y=y, Geom.path)
+	else
+		return Plots.plot(coords...; legend=false, grid=false, showaxis=false,
+						  foreground_color_text=:white, kwargs...)
+	end
 end
 
 
-function anim(num_frames, init, file="./temp_polymer_anim.gif", seed=nothing)
+function anim(num_frames, init, file="./temp_polymer_anim.gif", seed=nothing; kwargs...)
 	# Initialize default arguments
 	if isequal(seed, nothing)
 		seed = rand(UInt)

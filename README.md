@@ -5,7 +5,7 @@ A Julia implementation of the pivot algorithm: a Markov chain Monte carlo (MCMC)
 <table style="width:100%">
 	<!-- Images -->
 	<tr>
-		<td><img src="examples/plot_10000_100000.png" style="width:100%" /></td>
+		<td><img src="examples/plot_10000_100000.svg" style="width:100%" /></td>
 		<td><img src="examples/anim_100_10000_pre_100000.gif" style="width:100%" /></td>
 	</tr>
 	<!-- Captions -->
