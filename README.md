@@ -25,6 +25,10 @@ A Julia implementation of the pivot algorithm: a Markov chain Monte carlo (MCMC)
 	</tr>
 </table>
 
+### Polymer Zoom
+
+Click <a href="examples/plot_10000_100000.svg">here</a> for an <a href="https://en.wikipedia.org/wiki/Scalable_Vector_Graphics">svg</a> image of a two-dimensional polymer (produced with the <a href="http://gadflyjl.org/stable/">Gadfly</a> package for Julia). A nice Chrome extension for zooming and panning svg files is <a href="https://chrome.google.com/webstore/detail/svg-navigator/pefngfjmidahdaahgehodmfodhhhofkl">SVG Navigator</a>.
+
 ### Related
 
 My other repository, [*saw*](https://github.com/bencwallace/saw) includes a Python implementation of the pivot algorithm (as well as of the Metropolis-Hastings algorithm for simulating other models of linear polymers), emphasizes object-oriented design, and includes a pedagogical explanation of self-avoiding walk and MCMC methods in a Jupyter [notebook](https://github.com/bencwallace/saw/blob/master/saw-simulation.ipynb).
