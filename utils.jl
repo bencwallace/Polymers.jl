@@ -6,6 +6,12 @@ function dist(polymer)
 end
 
 
+# To post a 2D polymer `poly` to Plotly:
+# >>> using Plotly
+# >>> x = [item[1] for item in poly];
+# >>> y = [item[2] for item in poly];
+# >>> p = Plotly.plot([Plotly.scatter(x=x, y=y)]);
+# >>> post(p)
 function poly_plot(polymer, interactive=false; kwargs...)
 	dim = length(polymer[1])
 
@@ -13,12 +19,12 @@ function poly_plot(polymer, interactive=false; kwargs...)
 
 	if isequal(interactive, true)
 		plotly()
-		Plots.plot(coords...; legend=false)
+		return Plots.plot(coords...; legend=false)
 	else
 		if !isequal(backend(), Plots.GRBackend())
 			gr()
 		end
-		Plots.plot(coords...; legend=false, grid=false, showaxis=false,
+		return Plots.plot(coords...; legend=false, grid=false, showaxis=false,
 					foreground_color_text=:white, kwargs...)
 	end
 end
