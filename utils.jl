@@ -12,6 +12,7 @@ end
 # >>> y = [item[2] for item in poly];
 # >>> p = Plotly.plot([Plotly.scatter(x=x, y=y)]);
 # >>> post(p)
+# For a 3D polymer, use scatter3d instead (with option model="lines")
 function poly_plot(polymer, interactive=false; kwargs...)
 	dim = length(polymer[1])
 
