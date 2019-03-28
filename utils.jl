@@ -1,28 +1,25 @@
 using Plots
-using Gadfly
 include("pivot.jl")
-
 
 function dist(polymer)
 	return norm(polymer[end])
 end
 
 
-function poly_plot(polymer, svg=false; kwargs...)
+function poly_plot(polymer, interactive=false; kwargs...)
 	dim = length(polymer[1])
 
 	coords = [[item[i] for item in polymer] for i = 1:dim]
 
-	if isequal(svg, true)
-		x = coords[1]
-		y = coords[2]
-
-		# If p is the value returned by the following line, draw p with
-		# p |> SVG("name.svg")
-		return Gadfly.plot(x=x, y=y, Geom.path)
+	if isequal(interactive, true)
+		plotly()
+		Plots.plot(coords...; legend=false)
 	else
-		return Plots.plot(coords...; legend=false, grid=false, showaxis=false,
-						  foreground_color_text=:white, kwargs...)
+		if !isequal(backend(), Plots.GRBackend())
+			gr()
+		end
+		Plots.plot(coords...; legend=false, grid=false, showaxis=false,
+					foreground_color_text=:white, kwargs...)
 	end
 end
 

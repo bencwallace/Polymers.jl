@@ -3,9 +3,10 @@
 A Julia implementation of the pivot algorithm: a Markov chain Monte carlo (MCMC) sampler for the self-avoiding walk (SAW) model of a linear polymer chain.
 
 <table style="width:100%">
+	<!-- 2D -->
 	<!-- Images -->
 	<tr>
-		<td><img src="examples/plot_10000_100000.png" style="width:100%" /></td>
+		<td><a href="examples/plot2d.html" target="_"><img src="examples/plot_10000_100000.png" style="width:100%" /></a></td>
 		<td><img src="examples/anim_100_10000_pre_100000.gif" style="width:100%" /></td>
 	</tr>
 	<!-- Captions -->
@@ -13,9 +14,10 @@ A Julia implementation of the pivot algorithm: a Markov chain Monte carlo (MCMC)
 		<td><font size="1">2D SAW with 10000 steps</font></td>
 		<td><font size="1">Pivot algorithm in 2D</font></td>
 	</tr>
+	<!-- 3D -->
 	<!-- Images -->
 	<tr>
-		<td><img src="examples/plot3d_10000_100000.png" style="width:100%" /></td>
+		<td><a href="examples/plot3d.html" target="_"><img src="examples/plot3d_10000_100000.png" style="width:100%" /></a></td>
 		<td><img src="examples/anim3d_100_10000_pre_100000.gif" style="width:100%" /></td>
 	</tr>
 	<!-- Captions -->
@@ -24,10 +26,6 @@ A Julia implementation of the pivot algorithm: a Markov chain Monte carlo (MCMC)
 		<td><font size="1">Pivot algorithm in 3D</font></td>
 	</tr>
 </table>
-
-### Polymer Zoom
-
-Click <a href="examples/plot_10000_100000.svg">here</a> for an <a href="https://en.wikipedia.org/wiki/Scalable_Vector_Graphics">svg</a> image of a two-dimensional polymer (produced with the <a href="http://gadflyjl.org/stable/">Gadfly</a> package for Julia). A nice Chrome extension for zooming and panning svg files is <a href="https://chrome.google.com/webstore/detail/svg-navigator/pefngfjmidahdaahgehodmfodhhhofkl">SVG Navigator</a>.
 
 ### Related
 
@@ -49,6 +47,8 @@ The following optimization would also be desirable.
 ## Usage
 
 ### Setup
+
+**Requirements:** Interactive polymer plots require [Plotly](https://plot.ly/julia/).
 
 With Julia [downloaded](https://julialang.org/downloads/) and [installed](https://julialang.org/downloads/platform.html), download `pivot.jl`, `rot.jl`, and `utils.jl`, navigate to the directory where you downloaded these files, and run `julia`.
 
@@ -82,10 +82,3 @@ Produce an animation of the pivot algorithm run for 100 *successful* steps and s
 ```julia
 anim(100, line(100), "pivot_anim.gif")
 ```
-
-## To do
-
-Generate higher-quality (preferably vector) graphics. The following packages may be useful:
-
-* [Gadfly.jl](http://gadflyjl.org/stable/)
-* [Luxor.jl](http://juliagraphics.github.io/Luxor.jl/stable/)
