@@ -3,7 +3,7 @@ module Polymers
 export Polymer, stairs, bridge
 export mix
 export dist
-export poly_plot, anim
+export coordinates, poly_plot, anim
 
 include("core.jl")
 
