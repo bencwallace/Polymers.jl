@@ -16,36 +16,21 @@ poly3d.jld
 -initialized with line
 -100 000 iterations
 
-poly3d_bridge.jld
--3 dimensions
--100 000 steps
--initialized with bridge
--10 000 iterations
-
 
 plot2d.png
 -generated from poly2d.jld
--2 dimensions
--10 000 steps
--initialized with line
--100 000 iterations
+
+plot2d_bridge.png
+-generated from poly2d_bridge.jld
 
 plot3d.png
 -generated from poly3d.jld
--3 dimensions
--10 000 steps
--initialized with line
--100 000 iterations
-
+s
 
 anim2d.gif
--2 dimensions
--10000 steps
 -initialized with poly2d.jld
 -100 frames
 
 anim3d.gif
--3 dimensions
--10000 steps
 -initialized with poly3d.jld
 -100 frames
