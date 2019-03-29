@@ -1,4 +1,4 @@
-# Polymer
+# Polymers
 
 A Julia implementation of the pivot algorithm: a Markov chain Monte carlo (MCMC) sampler for the self-avoiding walk (SAW) model of a linear polymer chain.
 
@@ -70,15 +70,15 @@ Run julia and enter the [Pkg REPL](https://docs.julialang.org/en/v1/stdlib/Pkg/i
 Initialize a 3-dimensional polymer as a straight line with 1000 steps:
 
 ```julia
-using Polymer
+using Polymers
 
-poly3d = line(1000, 3);
+poly3d = Polymer(1000, 3);
 ```
 
 Initialize a 2-dimensional polymer and run the pivot algorithm for 10000 iterations:
 
 ```julia
-poly = line(1000);
+poly = Polymer(1000);
 poly = mix(poly, 10000)
 ```
 
