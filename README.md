@@ -1,4 +1,4 @@
-# Polymer
+# Polymers
 
 A Julia implementation of the pivot algorithm: a Markov chain Monte carlo (MCMC) sampler for the self-avoiding walk (SAW) model of a linear polymer chain.
 
@@ -6,8 +6,8 @@ A Julia implementation of the pivot algorithm: a Markov chain Monte carlo (MCMC)
 	<!-- 2D -->
 	<!-- Images -->
 	<tr>
-		<td><a href="https://plot.ly/~bencwallace/4/" target="_blank"><img src="examples/plot_10000_100000.png" style="width:100%" /></a></td>
-		<td><img src="examples/anim_100_10000_pre_100000.gif" style="width:100%" /></td>
+		<td><a href="https://plot.ly/~bencwallace/4/" target="_blank"><img src="examples/plot2d.png" style="width:100%" /></a></td>
+		<td><img src="examples/anim2d.gif" style="width:100%" /></td>
 	</tr>
 	<!-- Captions -->
 	<tr>
@@ -17,8 +17,8 @@ A Julia implementation of the pivot algorithm: a Markov chain Monte carlo (MCMC)
 	<!-- 3D -->
 	<!-- Images -->
 	<tr>
-		<td><a href="https://plot.ly/~bencwallace/8/" target="_blank"><img src="examples/plot3d_10000_100000.png" style="width:100%" /></a></td>
-		<td><img src="examples/anim3d_100_10000_pre_100000.gif" style="width:100%" /></td>
+		<td><a href="https://plot.ly/~bencwallace/8/" target="_blank"><img src="examples/plot3d.png" style="width:100%" /></a></td>
+		<td><img src="examples/anim3d.gif" style="width:100%" /></td>
 	</tr>
 	<!-- Captions -->
 	<tr>
@@ -44,6 +44,10 @@ This implementation of the pivot algorithm is optimized in the following ways.
 * Lattice rotations are represented as `SparseArray` objects. Matrix multiplication by a sparse array can be performed in linear (rather than quadratic) time (in the dimension). The pivot algorithm performs linearly many (in the number of polymer steps) matrix multiplications *per iteration*. An additional advantage of sparse arrays is that they require far less memory.
 * Prior to pivoting, the initial (un-pivoted) segment of a walk is converted to a `Set` object, which is a type of hash table, allowing for constant time lookups (as opposed to linear or, at best, logarithmic time for searching an array or list). The conversion itself requires linear time but need only be performed once (per iteration), whereas a linear number of lookups is required. Thus, the speedup per iteration is from quadratic (or at least super-linear) to linear time.
 
+For faster mixing, we also recommend the following:
+
+* Initialize the polymer as a self-avoiding bridge using `bridge` (discussed more below).
+
 The following optimization would also be desirable.
 
 * It should be possible to parallelize the pivot operation since every point on the tail (pivoted) segment of a walk is pivoted independently. This should lead to a roughly linear (in the number of available CPU cores) speedup.
@@ -65,20 +69,20 @@ Run julia and enter the [Pkg REPL](https://docs.julialang.org/en/v1/stdlib/Pkg/i
 (v1.1) pkg> add https://github.com/bencwallace/Polymer
 ```
 
-### Examples
+### Quick start
 
 Initialize a 3-dimensional polymer as a straight line with 1000 steps:
 
 ```julia
-using Polymer
+using Polymers
 
-poly3d = line(1000, 3);
+poly3d = Polymer(1000, 3);
 ```
 
 Initialize a 2-dimensional polymer and run the pivot algorithm for 10000 iterations:
 
 ```julia
-poly = line(1000);
+poly = Polymer(1000);
 poly = mix(poly, 10000)
 ```
 
@@ -93,3 +97,22 @@ Produce an animation of the pivot algorithm run for 100 *successful* steps and s
 ```julia
 anim(100, line(100), "pivot_anim.gif")
 ```
+
+### Other initializers
+
+The `stairs` function initializes a polymer in the shape of a staircase.
+
+The `bridge` function initializes a polymeer in the shape of a self-avoiding bridge, which is Markovian and does not take long to generate. This initialization appears to greatly improve mixing, as apparent from the following examples, both of which have 100000 steps and are the result of running the pivot algorithm for 10000 iterations.
+
+<table style="width:100%">
+	<!-- Images -->
+	<tr>
+		<td><a href="https://plot.ly/~bencwallace/12/" target="_blank"><img src="examples/plot2d_long.png" style="width:100%" /></a></td>
+		<td><a href="https://plot.ly/~bencwallace/10/" target="_blank"><img src="examples/plot2d_bridge.png" style="width:100%" /></a></td>
+	</tr>
+	<!-- Captions -->
+	<tr>
+		<td><font size="1">2D SAW initialized from a line</font></td>
+		<td><font size="1">2D SAW initialized from a bridge</font></td>
+	</tr>
+</table>

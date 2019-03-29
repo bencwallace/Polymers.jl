@@ -1,17 +1,24 @@
 using Plots
 
 
+function coordinates(polymer::Polymer)
+	dim = polymer.dim
+	steps = polymer.steps
+
+	return [[polymer[step][i] for step = 0:length(polymer)] for i = 1:dim]
+end
+
+
 # To post a 2D polymer `poly` to Plotly:
+# >>> x, y = coordinates(poly)
 # >>> using Plotly
-# >>> x = [item[1] for item in poly];
-# >>> y = [item[2] for item in poly];
 # >>> p = Plotly.plot([Plotly.scatter(x=x, y=y)]);
 # >>> post(p)
 # For a 3D polymer, use scatter3d instead (with option model="lines")
 function poly_plot(polymer::Polymer, interactive=false; kwargs...)
 	dim = polymer.dim
 
-	coords = [[polymer[step][i] for step = 0:length(polymer)] for i = 1:dim]
+	coords = coordinates(polymer)
 
 	if isequal(interactive, true)
 		plotly()
