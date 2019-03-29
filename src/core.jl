@@ -23,29 +23,29 @@ struct Polymer
 	end
 
 	# Pivot constructor
-	function Polymer(polymer::Polymer, step::Int, Rot)
-		steps = length(polymer)
-		point = polymer[step]		# Pivot point
+	# function Polymer(polymer::Polymer, step::Int, Rot)
+	# 	steps = length(polymer)
+	# 	point = polymer[step]		# Pivot point
 
-		init_segment = Set(polymer[1:step])
+	# 	init_segment = Set(polymer[1:step])
 
-		# Modify copy of polymer data since Polymer instances are not mutable
-		# Note that these are arrays and are indexed differently from polymers
-		new_polymer_data = copy(polymer.data)
+	# 	# Modify copy of polymer data since Polymer instances are not mutable
+	# 	# Note that these are arrays and are indexed differently from polymers
+	# 	new_polymer_data = copy(polymer.data)
 
-		# Try to parallelize this
-		for i in step+1:steps
-			new_point = point + Rot * (polymer[i] - point)
-			if new_point in init_segment
-				return polymer
-			end
+	# 	# Try to parallelize this
+	# 	for i in step+1:steps
+	# 		new_point = point + Rot * (polymer[i] - point)
+	# 		if new_point in init_segment
+	# 			return polymer
+	# 		end
 
-			# Note change of index
-			new_polymer_data[i+1] = new_point
-		end
+	# 		# Note change of index
+	# 		new_polymer_data[i+1] = new_point
+	# 	end
 
-		return new(steps, polymer.dim, new_polymer_data)
-	end
+	# 	return new(steps, polymer.dim, new_polymer_data)
+	# end
 
 	# Manual constructor
 	function Polymer(data::Array{Array{Int, 1}, 1})
