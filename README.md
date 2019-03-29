@@ -54,10 +54,16 @@ The following optimization would also be desirable.
 
 **Requirements** 
 
-* Tested on Julia 1.1.0
+* Developed using Julia 1.1.0
 * Interactive polymer plots require [Plotly](https://plot.ly/julia/)
 
-With Julia [downloaded](https://julialang.org/downloads/) and [installed](https://julialang.org/downloads/platform.html), download `pivot.jl`, `rot.jl`, and `utils.jl`, navigate to the directory where you downloaded these files, and run `julia`.
+**Installation**
+
+Run julia and enter the [Pkg REPL](https://docs.julialang.org/en/v1/stdlib/Pkg/index.html) by pressing `]`. Then run the following command:
+
+```julia-repl
+(v1.1) pkg> add https://github.com/bencwallace/Polymer
+```
 
 ### Examples
 
