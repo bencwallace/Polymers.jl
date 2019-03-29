@@ -1,26 +1,51 @@
-anim_100_1000_pre_1000.gif
--2 dimensions
--100 frames
--10000 steps
--initialized with poly2d_10000_100000.jld
-
-anim3d_100_1000_pre_1000.gif
--3 dimensions
--100 frames
--10000 steps
--initialized with poly3d_10000_100000.jld
-
-plot_10000_100000.png
--generated from poly2d_10000_100000.jld
+poly2d.jld
 -2 dimensions
 -10 000 steps
 -initialized with line
 -100 000 iterations
 
-plot3d_10000_100000.png
--generated from poly3d_10000_100000.jld
+poly2d_bridge.jld
+-2 dimensions
+-100 000 steps
+-initialized with bridge
+-10 000 iterations
+
+poly3d.jld
 -3 dimensions
 -10 000 steps
 -initialized with line
 -100 000 iterations
 
+poly3d_bridge.jld
+-3 dimensions
+-100 000 steps
+-initialized with bridge
+-10 000 iterations
+
+
+plot2d.png
+-generated from poly2d.jld
+-2 dimensions
+-10 000 steps
+-initialized with line
+-100 000 iterations
+
+plot3d.png
+-generated from poly3d.jld
+-3 dimensions
+-10 000 steps
+-initialized with line
+-100 000 iterations
+
+
+anim2d.gif
+-2 dimensions
+-10000 steps
+-initialized with poly2d.jld
+-100 frames
+
+anim3d.gif
+-3 dimensions
+-10000 steps
+-initialized with poly3d.jld
+-100 frames
