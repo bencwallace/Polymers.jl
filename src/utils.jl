@@ -1,5 +1,4 @@
 using Plots
-include("pivot.jl")
 
 function dist(polymer)
 	return norm(polymer[end])
