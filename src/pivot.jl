@@ -1,46 +1,28 @@
 using Random
-include("rot.jl")
 
 
-function pivot(polymer, step, Rot)
-	steps = length(polymer)
-	point = polymer[step]		# Pivot point
-
-	init_segment = Set(polymer[1:step])
-	new_polymer = copy(polymer)
-
-	# Try to parallelize this
-	for i in step+1:steps
-		new_point = point + Rot * (polymer[i] - point)
-		if new_point in init_segment
-			return polymer
-		end
-
-		new_polymer[i] = new_point
-	end
-
-	return new_polymer
+function pivot(polymer::Polymer, step::Int, Rot::AbstractArray)
+	return Polymer(polymer, step, Rot)
 end
 
 
-function rand_pivot(polymer, seed=nothing)
+function rand_pivot(polymer::Polymer, seed=nothing)
 	steps = length(polymer)
-	dim = length(polymer[1])
+	dim = polymer.dim
 
 	# Sample random pivot point step and rotation
 	if !isequal(seed, nothing)
 		Random.seed!(seed)
 	end
-	step = rand(2:steps-1)		# Exclude trivial pivot points
+	step = rand(1:steps-1)		# Exclude trivial pivot points
 	Rot = rand_lattice_rot(dim, seed)
 
 	# Apply Pivot
-	new_polymer = pivot(polymer, step, Rot)
-	return new_polymer
+	return pivot(polymer, step, Rot)
 end
 
 
-function mix(polymer, iter, callbacks=[], seed=nothing)
+function mix(polymer::Polymer, iter::Int, callbacks=[], seed=nothing)
 	# Need an initial seed
 	if isequal(seed, nothing)
 		seed = rand(UInt)
@@ -48,7 +30,8 @@ function mix(polymer, iter, callbacks=[], seed=nothing)
 
 	interval = 10 ^ floor(log10(iter / 10))
 
-	for i in 0:iter-1
+	print("Mixing polymer\n")
+	for i in 1:iter
 		# Diagnostics
 		if i % interval == 0
 			print("Iteration $i\n")

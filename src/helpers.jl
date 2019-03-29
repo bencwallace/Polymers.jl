@@ -1,8 +1,9 @@
-using LinearAlgebra		# Needed for I but missing in doc
-using Random
+using LinearAlgebra
 using SparseArrays
+using Random
 
-function rand_lattice_rot(dim, seed=nothing)
+
+function rand_lattice_rot(dim::Int, seed=nothing)
 	# Sample (cos, sin) pair for rotation by non-trivial multiple of π/2
 	if !isequal(seed, nothing)
 		Random.seed!(seed)
@@ -22,4 +23,16 @@ function rand_lattice_rot(dim, seed=nothing)
 	Rot[j, i] = -sintheta
 
 	return Rot
+end
+
+
+function basis(i, dim=2)
+	e = zeros(Int, dim)
+	e[i] = 1
+	return e
+end
+
+
+function intersects(array::Array{Array{Int, 1}, 1})
+	return length(Set(array)) < length(array)
 end

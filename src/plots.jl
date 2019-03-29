@@ -1,9 +1,5 @@
 using Plots
 
-function dist(polymer)
-	return norm(polymer[end])
-end
-
 
 # To post a 2D polymer `poly` to Plotly:
 # >>> using Plotly
@@ -12,10 +8,10 @@ end
 # >>> p = Plotly.plot([Plotly.scatter(x=x, y=y)]);
 # >>> post(p)
 # For a 3D polymer, use scatter3d instead (with option model="lines")
-function poly_plot(polymer, interactive=false; kwargs...)
-	dim = length(polymer[1])
+function poly_plot(polymer::Polymer, interactive=false; kwargs...)
+	dim = polymer.dim
 
-	coords = [[item[i] for item in polymer] for i = 1:dim]
+	coords = [[polymer[step][i] for step = 0:length(polymer)] for i = 1:dim]
 
 	if isequal(interactive, true)
 		plotly()

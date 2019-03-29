@@ -70,7 +70,7 @@ Run julia and enter the [Pkg REPL](https://docs.julialang.org/en/v1/stdlib/Pkg/i
 Initialize a 3-dimensional polymer as a straight line with 1000 steps:
 
 ```julia
-include("pivot.jl")
+using Polymer
 
 poly3d = line(1000, 3);
 ```
@@ -85,8 +85,6 @@ poly = mix(poly, 10000)
 Plot a polymer:
 
 ```julia
-include("utils.jl")
-
 poly_plot(poly)
 ```
 
