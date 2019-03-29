@@ -12,6 +12,11 @@ struct Polymer
 
 	# Inner constructors
 
+	# Base constructor (temporary)
+	function Polymer(steps::Int, dim::Int, data::Array{Array{Int, 1}, 1})
+		return new(steps, dim, data)
+	end
+
 	# Copy constructor
 	function Polymer(polymer::Polymer)
 		return new(polymer.steps, polymer.dim, polymer.data)

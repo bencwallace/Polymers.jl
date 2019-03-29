@@ -22,7 +22,7 @@ function pivot(polymer, step, Rot)
 end
 
 
-function rand_pivot(polymer, seed=nothing)
+function rand_pivot(polymer::Polymer, seed=nothing)
 	steps = length(polymer)
 	dim = length(polymer[1])
 
@@ -34,8 +34,9 @@ function rand_pivot(polymer, seed=nothing)
 	Rot = rand_lattice_rot(dim, seed)
 
 	# Apply Pivot
-	new_polymer = pivot(polymer, step, Rot)
-	return new_polymer
+	polymer_data = polymer.data
+	new_polymer_data = pivot(polymer_data, step, Rot)
+	return Polymer(steps, dim, new_polymer_data)
 end
 
 
@@ -47,7 +48,6 @@ function mix(polymer::Polymer, iter::Int, callbacks=[], seed=nothing)
 
 	interval = 10 ^ floor(log10(iter / 10))
 
-	polymer_data = polymer.data
 	print("Mixing polymer\n")
 	for i in 1:iter
 		# Diagnostics
@@ -63,9 +63,9 @@ function mix(polymer::Polymer, iter::Int, callbacks=[], seed=nothing)
 		end
 
 		# Apply random pivot and increment seed
-		polymer_data = rand_pivot(polymer_data, seed)
+		polymer = rand_pivot(polymer, seed)
 		seed += 1
 	end
 
-	return Polymer(polymer_data)
+	return polymer
 end
