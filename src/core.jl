@@ -13,7 +13,7 @@ struct Polymer
 
 	# Copy constructor
 	function Polymer(polymer::Polymer)
-		return new(polymer.steps, polymer.dim, polymer.data)
+		return new(polymer.steps, polymer.dim, copy(polymer.data))
 	end
 
 	# Sub-polymer constructor
