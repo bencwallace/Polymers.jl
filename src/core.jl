@@ -9,25 +9,41 @@ struct Polymer
 	dim::Int
 	data::Array{Array{Int, 1}, 1}
 
-	# Inner constructors
+	# ------------------------------- Inner constructors ------------------------------- #
 
-	# Copy constructor
+	"""
+		Polymer(polymer::Polymer)
+
+	Return a copy of `polymer`.
+	"""
 	function Polymer(polymer::Polymer)
 		return new(polymer.steps, polymer.dim, copy(polymer.data))
 	end
 
-	# Sub-polymer constructor
+	"""
+		Polymer(polymer::Polymer, indices::UnitRange{Int})
+
+	Return the sub-polymer of `Polymer` indexed by `indices`.
+	"""
 	function Polymer(polymer::Polymer, indices::UnitRange{Int})
 		new_polymer_data = polymer.data[UnitRange(indices[1]+1, indices[end]+1)]
 		return new(length(indices)-1, polymer.dim, new_polymer_data)
 	end
 
-	# Line constructor
+	"""
+		Polymer(steps, dim)
+
+	Return a `Polymer` initialized as a straight line.
+	"""
 	function Polymer(steps::Int, dim::Int=2)
 		new(steps, dim, [i * basis(1, dim) for i in 0:steps])
 	end
 
-	# Pivot constructor
+	"""
+		Polymer(polymer, step, Rot)
+
+	Return the polymer obtained by pivoting `polymer` via rotation matrix `Rot` at `step`.
+	"""
 	function Polymer(polymer::Polymer, step::Int, Rot::AbstractMatrix{Int})
 		steps = length(polymer)
 		point = polymer[step]		# Pivot point
@@ -49,9 +65,18 @@ struct Polymer
 		return new_polymer
 	end
 
-	# Manual constructor
+	"""
+		Polymer(data)
+
+	Return the `Polymer` constructed manually from `data` if this is a valid `Polymer`.
+
+	# Warning
+	This constructor should generally be avoided when performance is an issue, as it
+	validates `data` by checking for possible intersections or a potential dimension
+	mismatch (the latter verification is especially slow).
+	"""
 	function Polymer(data::Array{Array{Int, 1}, 1})
-		if intersects(data)
+		if repeats(data)
 			error("Polymer cannot have intersections.")
 		end
 
@@ -66,11 +91,20 @@ struct Polymer
 
 		return new(steps, dim, data)
 	end
+
+	function Polymer(steps::Int, dim::Int, data::Array{Array{Int, 1}, 1})
+		return Polymer(data)
+	end
 end
 
 
-# Outer constructors
+# --------------------------------- Outer constructors --------------------------------- #
 
+"""
+	stairs(steps, dim)
+
+Return a `Polymer` initialized as a (planar) staircase.
+"""
 function stairs(steps, dim=2)
 	horizontal = [Int(ceil(i / 2)) * basis(1, dim) for i=0:steps]
 	vertical = [Int(floor(i / 2)) * basis(2, dim) for i=0:steps]
@@ -79,6 +113,11 @@ function stairs(steps, dim=2)
 end
 
 
+"""
+	bridge(steps, dim)
+
+Return a `Polymer` initialized as Markovian self-avoiding bridge.
+"""
 function bridge(steps, dim=2)
 	e = [basis(i, dim) for i=1:dim]
 	options = [e..., -e[dim]]
@@ -107,14 +146,12 @@ function bridge(steps, dim=2)
 	return Polymer(output)
 end
 
-# Basic polymer methods
+# -------------------------------- Basic polymer methods -------------------------------- #
 
 function length(polymer::Polymer)
 	return polymer.steps
 end
 
-function iterate(polymer::Polymer)
-end
 
 function lastindex(polymer::Polymer)
 	return length(polymer)
@@ -145,7 +182,7 @@ function Set(polymer::Polymer)
 end
 
 
-# Other polymer properties
+# ------------------------------ Other polymer properties ------------------------------ #
 
 function dist(polymer::Polymer)
 	return norm(polymer[end])
