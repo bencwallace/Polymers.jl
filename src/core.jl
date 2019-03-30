@@ -1,4 +1,4 @@
-import Base: length, getindex, Set, setfield!, copy, lastindex, iterate
+import Base: length, getindex, Set, setfield!, copy, lastindex, iterate, setindex!
 import LinearAlgebra: norm
 
 include("helpers.jl")
@@ -33,7 +33,7 @@ struct Polymer
 		point = polymer[step]		# Pivot point
 
 		init_segment = Set(polymer[0:step])
-		new_polymer_data = copy(polymer.data)
+		new_polymer = copy(polymer)
 
 		# Try to parallelize this
 		for i in step+1:steps
@@ -43,10 +43,10 @@ struct Polymer
 			end
 
 			# Note change of index
-			new_polymer_data[i+1] = new_point
+			new_polymer[i] = new_point
 		end
 
-		return new(steps, polymer.dim, new_polymer_data)
+		return new_polymer
 	end
 
 	# Manual constructor
@@ -126,6 +126,11 @@ end
 
 function getindex(polymer::Polymer, indices::UnitRange{Int})
 	return Polymer(polymer, indices)
+end
+
+
+function setindex!(polymer::Polymer, value, index::Int)
+	polymer.data[index+1] = value
 end
 
 
