@@ -47,13 +47,19 @@ poly = load("poly2d_10000_100000.jld")["poly"];
  * 100 000 steps
  * initialized with bridge
  * 10 000 iterations
- * https://plot.ly/~bencwallace/10
+ * https://plot.ly/~bencwallace/14
 * poly3d.jld
  * 3 dimensions
  * 10 000 steps
  * initialized with line
  * 100 000 iterations
  * https://plot.ly/~bencwallace/8
+* poly3d_bridge.jld
+ * 3 dimensions
+ * 100 000 steps
+ * initialized with bridge
+ * 10 000 iterations
+ * https://plot.ly/~bencwallace/16
 
 ### PNG
 
@@ -65,6 +71,8 @@ poly = load("poly2d_10000_100000.jld")["poly"];
  * generated from poly2d_bridge.jld
 * plot3d.png
  * generated from poly3d.jld
+* plot3d_bridge.png
+ * generated from poly3d_bridge.jld
 
 ### GIF
 

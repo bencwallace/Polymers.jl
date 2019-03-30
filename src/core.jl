@@ -81,10 +81,11 @@ end
 
 function bridge(steps, dim=2)
 	e = [basis(i, dim) for i=1:dim]
-	options = [e..., [-item for item in e[2:dim]]...]
+	options = [e..., -e[dim]]
 
 	summands = Array{Array{Int, 1}}(undef, steps+1)
 	summands[1] = zeros(Int, dim)
+
 	for i=2:steps+1
 		valid = false
 		candidate = nothing

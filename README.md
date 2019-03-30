@@ -10,24 +10,24 @@ Click on any of the (static) images below to view interactive examples (generate
 	<!-- 2D -->
 	<!-- Images -->
 	<tr>
-		<td><a href="https://plot.ly/~bencwallace/4/" target="_blank"><img src="examples/plot2d.png" style="width:100%" /></a></td>
+		<td><a href="https://plot.ly/~bencwallace/14/" target="_blank"><img src="examples/plot2d_bridge.png" style="width:100%" /></a></td>
 		<td><img src="examples/anim2d.gif" style="width:100%" /></td>
 	</tr>
 	<!-- Captions -->
 	<tr>
-		<td><font size="1">2D SAW with 10000 steps</font></td>
-		<td><font size="1">Pivot algorithm in 2D</font></td>
+		<td><font size="1">2D SAW with 100 000 steps</font></td>
+		<td><font size="1">Pivot algorithm in 2D for a walk with 10 000 steps</font></td>
 	</tr>
 	<!-- 3D -->
 	<!-- Images -->
 	<tr>
-		<td><a href="https://plot.ly/~bencwallace/8/" target="_blank"><img src="examples/plot3d.png" style="width:100%" /></a></td>
+		<td><a href="https://plot.ly/~bencwallace/16/" target="_blank"><img src="examples/plot3d_bridge.png" style="width:100%" /></a></td>
 		<td><img src="examples/anim3d.gif" style="width:100%" /></td>
 	</tr>
 	<!-- Captions -->
 	<tr>
-		<td><font size="1">3D SAW with 10000 steps</font></td>
-		<td><font size="1">Pivot algorithm in 3D</font></td>
+		<td><font size="1">3D SAW with 100 000 steps</font></td>
+		<td><font size="1">Pivot algorithm in 3D for a walk with 10 000 steps</font></td>
 	</tr>
 </table>
 
@@ -63,10 +63,11 @@ The following optimization would also be desirable.
 
 **Installation**
 
-Run julia and enter the [Pkg REPL](https://docs.julialang.org/en/v1/stdlib/Pkg/index.html) by pressing `]`. Then run the following command:
+Run the following in the julia REPL:
 
-```julia-repl
-(v1.1) pkg> add https://github.com/bencwallace/Polymer
+```julia
+julia> using Pkg
+julia> Pkg.add("https://github.com/bencwallace/Polymer")
 ```
 
 ### Quick start
@@ -108,7 +109,7 @@ The `bridge` function initializes a polymeer in the shape of a self-avoiding bri
 	<!-- Images -->
 	<tr>
 		<td><a href="https://plot.ly/~bencwallace/12/" target="_blank"><img src="examples/plot2d_long.png" style="width:100%" /></a></td>
-		<td><a href="https://plot.ly/~bencwallace/10/" target="_blank"><img src="examples/plot2d_bridge.png" style="width:100%" /></a></td>
+		<td><a href="https://plot.ly/~bencwallace/14/" target="_blank"><img src="examples/plot2d_bridge.png" style="width:100%" /></a></td>
 	</tr>
 	<!-- Captions -->
 	<tr>

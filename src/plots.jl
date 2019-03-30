@@ -14,7 +14,7 @@ end
 # >>> using Plotly
 # >>> p = Plotly.plot([Plotly.scatter(x=x, y=y)]);
 # >>> post(p)
-# For a 3D polymer, use scatter3d instead (with option model="lines")
+# For a 3D polymer, use scatter3d instead (with option mode="lines")
 function poly_plot(polymer::Polymer, interactive=false; kwargs...)
 	dim = polymer.dim
 
