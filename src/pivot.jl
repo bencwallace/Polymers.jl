@@ -6,14 +6,18 @@ function pivot(polymer::Polymer, step::Int, Rot::AbstractMatrix{Int})
 end
 
 
-function rand_pivot(polymer::Polymer, seed=nothing)
+function rand_pivot end
+
+function rand_pivot(polymer::Polymer)
+	return rand_pivot(polymer, rand(UInt))
+end
+
+function rand_pivot(polymer::Polymer, seed::Integer)
 	steps = length(polymer)
 	dim = length(polymer[1])
 
 	# Sample random pivot point step and rotation
-	if !isequal(seed, nothing)
-		Random.seed!(seed)
-	end
+	Random.seed!(seed)
 	step = rand(2:steps-1)		# Exclude trivial pivot points
 	Rot = rand_lattice_rot(dim, seed)
 
@@ -22,6 +26,7 @@ function rand_pivot(polymer::Polymer, seed=nothing)
 end
 
 
+# To do: Implement multiple dispatch for optional arguments
 function mix(polymer::Polymer, iter::Int, callbacks=[], seed=nothing)
 	# Need an initial seed
 	if isequal(seed, nothing)

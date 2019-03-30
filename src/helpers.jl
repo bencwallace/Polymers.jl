@@ -8,15 +8,15 @@ using Random
 
 Return a random rotation matrix of the `dim`-dimensional hypercubic lattice.
 """
-function rand_lattice_rot::SparseMatrixCSC{Int, Int} end
+function rand_lattice_rot end
 
 
-function rand_lattice_rot(dim::Int)
+function rand_lattice_rot(dim::Int)::SparseMatrixCSC{Int, Int}
 	return rand_lattice_rot(dim, rand(UInt))
 end
 
 
-function rand_lattice_rot(dim::Int, seed::Integer)
+function rand_lattice_rot(dim::Int, seed::Integer)::SparseMatrixCSC{Int, Int}
 	# Sample (cos, sin) pair for rotation by non-trivial multiple of π/2
 	Random.seed!(seed)
 	costheta, sintheta = rand([(0, 1), (-1, 0), (0, -1)])
