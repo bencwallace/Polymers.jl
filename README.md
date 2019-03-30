@@ -2,6 +2,10 @@
 
 A Julia implementation of the pivot algorithm: a Markov chain Monte carlo (MCMC) sampler for the self-avoiding walk (SAW) model of a linear polymer chain.
 
+### Interactive examples
+
+Click on any of the (static) images below to view interactive examples (generated with [Plotly](https://plot.ly/)).
+
 <table style="width:100%">
 	<!-- 2D -->
 	<!-- Images -->
@@ -26,10 +30,6 @@ A Julia implementation of the pivot algorithm: a Markov chain Monte carlo (MCMC)
 		<td><font size="1">Pivot algorithm in 3D</font></td>
 	</tr>
 </table>
-
-### Interactive examples
-
-Click on any of the (static) images above to view interactive examples (generated with [Plotly](https://plot.ly/)).
 
 ### Related
 
