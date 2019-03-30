@@ -3,7 +3,6 @@ import LinearAlgebra: norm
 
 include("helpers.jl")
 
-# Polymer type
 
 struct Polymer
 	steps::Int
@@ -12,14 +11,15 @@ struct Polymer
 
 	# Inner constructors
 
-	# Base constructor (temporary)
-	function Polymer(steps::Int, dim::Int, data::Array{Array{Int, 1}, 1})
-		return new(steps, dim, data)
-	end
-
 	# Copy constructor
 	function Polymer(polymer::Polymer)
 		return new(polymer.steps, polymer.dim, polymer.data)
+	end
+
+	# Sub-polymer constructor
+	function Polymer(polymer::Polymer, indices::UnitRange{Int})
+		new_polymer_data = polymer.data[UnitRange(indices[1]+1, indices[end]+1)]
+		return new(length(indices)-1, polymer.dim, new_polymer_data)
 	end
 
 	# Line constructor
@@ -28,29 +28,26 @@ struct Polymer
 	end
 
 	# Pivot constructor
-	# function Polymer(polymer::Polymer, step::Int, Rot)
-	# 	steps = length(polymer)
-	# 	point = polymer[step]		# Pivot point
+	function Polymer(polymer::Polymer, step::Int, Rot::AbstractMatrix{Int})
+		steps = length(polymer)
+		point = polymer[step]		# Pivot point
 
-	# 	init_segment = Set(polymer[1:step])
+		init_segment = Set(polymer[0:step])
+		new_polymer_data = copy(polymer.data)
 
-	# 	# Modify copy of polymer data since Polymer instances are not mutable
-	# 	# Note that these are arrays and are indexed differently from polymers
-	# 	new_polymer_data = copy(polymer.data)
+		# Try to parallelize this
+		for i in step+1:steps
+			new_point = point + Rot * (polymer[i] - point)
+			if new_point in init_segment
+				return polymer
+			end
 
-	# 	# Try to parallelize this
-	# 	for i in step+1:steps
-	# 		new_point = point + Rot * (polymer[i] - point)
-	# 		if new_point in init_segment
-	# 			return polymer
-	# 		end
+			# Note change of index
+			new_polymer_data[i+1] = new_point
+		end
 
-	# 		# Note change of index
-	# 		new_polymer_data[i+1] = new_point
-	# 	end
-
-	# 	return new(steps, polymer.dim, new_polymer_data)
-	# end
+		return new(steps, polymer.dim, new_polymer_data)
+	end
 
 	# Manual constructor
 	function Polymer(data::Array{Array{Int, 1}, 1})
@@ -128,7 +125,7 @@ end
 
 
 function getindex(polymer::Polymer, indices::UnitRange{Int})
-	return Polymer(polymer.data[UnitRange(indices[1] + 1, indices[end] + 1)])
+	return Polymer(polymer, indices)
 end
 
 

@@ -9,6 +9,6 @@ include("core.jl")
 
 # The following use core
 include("pivot.jl")
-# include("plots.jl")
+include("plots.jl")
 
 end

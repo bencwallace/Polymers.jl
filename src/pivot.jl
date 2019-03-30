@@ -1,26 +1,8 @@
 using Random
 
 
-# For some reason runs slowly if polymer is of type Polymer
-# Replacing polymer with polymer.data for now
-function pivot(polymer, step::Int, Rot::SparseMatrixCSC{Int, Int})
-	steps = length(polymer)
-	point = polymer[step]		# Pivot point
-
-	init_segment = Set(polymer[1:step])
-	new_polymer = copy(polymer)
-
-	# Try to parallelize this
-	for i in step+1:steps
-		new_point = point + Rot * (polymer[i] - point)
-		if new_point in init_segment
-			return polymer
-		end
-
-		new_polymer[i] = new_point
-	end
-
-	return new_polymer
+function pivot(polymer::Polymer, step::Int, Rot::AbstractMatrix{Int})
+	return Polymer(polymer, step, Rot)
 end
 
 
@@ -36,8 +18,7 @@ function rand_pivot(polymer::Polymer, seed=nothing)
 	Rot = rand_lattice_rot(dim, seed)
 
 	# Apply Pivot
-	new_polymer_data = pivot(polymer.data, step, Rot)
-	return Polymer(steps, dim, new_polymer_data)
+	return pivot(polymer, step, Rot)
 end
 
 
