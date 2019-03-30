@@ -33,9 +33,9 @@ Click on any of the (static) images above to view interactive examples (generate
 
 ### Related
 
-My other repository, [*saw*](https://github.com/bencwallace/saw) includes a Python implementation of the pivot algorithm (as well as of the Metropolis-Hastings algorithm for simulating other models of linear polymers), emphasizes object-oriented design, and includes a pedagogical explanation of self-avoiding walk and MCMC methods in a Jupyter [notebook](https://github.com/bencwallace/saw/blob/master/saw-simulation.ipynb).
+My other repository, [*saw*](https://github.com/bencwallace/saw) includes a Python implementation of the pivot algorithm (as well as of the Metropolis-Hastings algorithm for simulating other models of linear polymers) includes a pedagogical explanation of self-avoiding walk and MCMC methods as well as an animated demonstration of the pivot algorithm in a Jupyter [notebook](https://github.com/bencwallace/saw/blob/master/saw-simulation.ipynb).
 
-*Polymer*, on the other hand, places emphasis on speed of computation for the pivot algorithm using [Julia](https://julialang.org/).
+*Polymers*, on the other hand, places emphasis on speed of computation for the pivot algorithm using [Julia](https://julialang.org/).
 
 ## Optimization
 
