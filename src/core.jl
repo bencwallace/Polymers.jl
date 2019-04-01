@@ -16,9 +16,7 @@ struct Polymer
 
 	Return a copy of `polymer`.
 	"""
-	function Polymer(polymer::Polymer)
-		return new(polymer.steps, polymer.dim, copy(polymer.data))
-	end
+	Polymer(polymer::Polymer) = new(polymer.steps, polymer.dim, copy(polymer.data))
 
 	"""
 		Polymer(polymer::Polymer, indices::UnitRange{Int})
@@ -35,9 +33,7 @@ struct Polymer
 
 	Return a `Polymer` initialized as a straight line.
 	"""
-	function Polymer(steps::Int, dim::Int=2)
-		new(steps, dim, [i * basis(1, dim) for i in 0:steps])
-	end
+	Polymer(steps::Int, dim::Int=2) = new(steps, dim, [i * basis(1, dim) for i in 0:steps])
 
 	"""
 		Polymer(polymer, step, Rot)
@@ -92,9 +88,7 @@ struct Polymer
 		return new(steps, dim, data)
 	end
 
-	function Polymer(steps::Int, dim::Int, data::Array{Array{Int, 1}, 1})
-		return Polymer(data)
-	end
+	Polymer(steps::Int, dim::Int, data::Array{Array{Int, 1}, 1}) = Polymer(data)
 end
 
 
@@ -148,23 +142,16 @@ end
 
 # -------------------------------- Basic polymer methods -------------------------------- #
 
-function length(polymer::Polymer)
-	return polymer.steps
-end
+length(polymer::Polymer) = polymer.steps
 
 
-function lastindex(polymer::Polymer)
-	return length(polymer)
-end
-
-function getindex(polymer::Polymer, index::Int)
-	return polymer.data[index+1]
-end
+lastindex(polymer::Polymer) = length(polymer)
 
 
-function getindex(polymer::Polymer, indices::UnitRange{Int})
-	return Polymer(polymer, indices)
-end
+getindex(polymer::Polymer, index::Int) = polymer.data[index+1]
+
+
+getindex(polymer::Polymer, indices::UnitRange{Int}) = Polymer(polymer, indices)
 
 
 function setindex!(polymer::Polymer, value, index::Int)
@@ -172,14 +159,10 @@ function setindex!(polymer::Polymer, value, index::Int)
 end
 
 
-function copy(polymer::Polymer)
-	return Polymer(polymer)
-end
+copy(polymer::Polymer) = Polymer(polymer)
 
 
-function Set(polymer::Polymer)
-	return Set(polymer.data)
-end
+Set(polymer::Polymer) = Set(polymer.data)
 
 
 # ------------------------------ Other polymer properties ------------------------------ #
@@ -189,6 +172,4 @@ end
 
 Return the end-to-end distance of `polymer`.
 """
-function dist(polymer::Polymer)
-	return norm(polymer[end])
-end
+dist(polymer::Polymer) = norm(polymer[end])

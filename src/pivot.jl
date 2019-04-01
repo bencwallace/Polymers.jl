@@ -6,9 +6,7 @@ using Random
 
 Return the polymer obtained by pivoting `polymer` via rotation matrix `Rot` at `step`.
 """
-function pivot(polymer::Polymer, step::Int, Rot::AbstractMatrix{Int})
-	return Polymer(polymer, step, Rot)
-end
+pivot(polymer::Polymer, step::Int, Rot::AbstractMatrix{Int}) = Polymer(polymer, step, Rot)
 
 
 """
@@ -18,9 +16,7 @@ Return the `Polymer` obtained by applying a random pivot move to `polymer`.
 """
 function rand_pivot end
 
-function rand_pivot(polymer::Polymer)
-	return rand_pivot(polymer, rand(UInt))
-end
+rand_pivot(polymer::Polymer) = rand_pivot(polymer, rand(UInt))
 
 function rand_pivot(polymer::Polymer, seed::Integer)
 	steps = length(polymer)
@@ -43,24 +39,15 @@ Return the result of iteratively applying `iter` random pivot moves to `polymer`
 """
 function mix end
 
-function mix(polymer::Polymer, iter::Int)
-	return mix(polymer, iter, [])
-end
+mix(polymer::Polymer, iter::Int) = mix(polymer, iter, [])
 
 function mix(polymer::Polymer, iter::Int, callbacks::Array)
 	return mix(polymer, iter, callbacks, rand(UInt))
 end
 
-function mix(polymer::Polymer, iter::Int, seed::Integer)
-	return mix(polymer, iter, [], seed)
-end
+mix(polymer::Polymer, iter::Int, seed::Integer) = mix(polymer, iter, [], seed)
 
 function mix(polymer::Polymer, iter::Int, callbacks::Array, seed::Integer)
-	# Need an initial seed
-	if isequal(seed, nothing)
-		seed = rand(UInt)
-	end
-
 	interval = 10 ^ floor(log10(iter / 10))
 
 	print("Mixing polymer\n")

@@ -10,11 +10,9 @@ Return a random rotation matrix of the `dim`-dimensional hypercubic lattice.
 """
 function rand_lattice_rot end
 
-
 function rand_lattice_rot(dim::Int)::SparseMatrixCSC{Int, Int}
 	return rand_lattice_rot(dim, rand(UInt))
 end
-
 
 function rand_lattice_rot(dim::Int, seed::Integer)::SparseMatrixCSC{Int, Int}
 	# Sample (cos, sin) pair for rotation by non-trivial multiple of π/2
@@ -57,6 +55,4 @@ end
 
 Determine whether an array contains a repeated element.
 """
-function repeats(array)
-	return length(Set(array)) < length(array)
-end
+repeats(array) = length(Set(array)) < length(array)
