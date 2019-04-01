@@ -101,6 +101,11 @@ Plot a polymer:
 poly_plot(poly)
 ```
 
+Make an interactive plot:
+```julia
+poly_plot(poly, true)
+```
+
 Produce an animation of the pivot algorithm run for 100 *successful* steps and save it to "pivot_anim.gif":
 
 ```julia
