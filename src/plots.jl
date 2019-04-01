@@ -33,18 +33,21 @@ function poly_plot(polymer::Polymer, interactive=false; kwargs...)
 end
 
 
-function anim(num_frames, init, file="./temp_polymer_anim.gif", seed=nothing; kwargs...)
-	# Initialize default arguments
-	if isequal(seed, nothing)
-		seed = rand(UInt)
-	end
+function anim end
 
-	if isa(init, Int)
-		poly = line(init)
-	else
-		poly = init
-	end
+function anim(num_frames::Int, init::Int, file::String="./temp_polymer_anim.gif")
+	return anim(num_frames, init, file, rand(UInt))
+end
 
+function anim(num_frames::Int, init::Int, file::String, seed::Integer)
+	return anim(num_frames, Polymer(init), file, seed)
+end
+
+function anim(num_frames::Int, init::Polymer, file::String="./temp_polymer_anim.gif")
+	return anim(num_frames, init, file, rand(UInt))
+end
+
+function anim(num_frames::Int, init::Polymer, file::String, seed::Integer; kwargs...)
 	# Initialize animation with first frame
 	anim = Animation()
 	poly_plot(poly; kwargs...)

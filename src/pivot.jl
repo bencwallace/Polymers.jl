@@ -26,8 +26,21 @@ function rand_pivot(polymer::Polymer, seed::Integer)
 end
 
 
-# To do: Implement multiple dispatch for optional arguments
-function mix(polymer::Polymer, iter::Int, callbacks=[], seed=nothing)
+function mix end
+
+function mix(polymer::Polymer, iter::Int)
+	return mix(polymer, iter, [])
+end
+
+function mix(polymer::Polymer, iter::Int, callbacks::Array)
+	return mix(polymer, iter, callbacks, rand(UInt))
+end
+
+function mix(polymer::Polymer, iter::Int, seed::Integer)
+	return mix(polymer, iter, [], seed)
+end
+
+function mix(polymer::Polymer, iter::Int, callbacks::Array, seed::Integer)
 	# Need an initial seed
 	if isequal(seed, nothing)
 		seed = rand(UInt)
