@@ -1,11 +1,21 @@
 using Random
 
 
+"""
+	Polymer(polymer, step, Rot)
+
+Return the polymer obtained by pivoting `polymer` via rotation matrix `Rot` at `step`.
+"""
 function pivot(polymer::Polymer, step::Int, Rot::AbstractMatrix{Int})
 	return Polymer(polymer, step, Rot)
 end
 
 
+"""
+	rand_pivot(polymer[, seed])
+
+Return the `Polymer` obtained by applying a random pivot move to `polymer`.
+"""
 function rand_pivot end
 
 function rand_pivot(polymer::Polymer)
@@ -26,6 +36,11 @@ function rand_pivot(polymer::Polymer, seed::Integer)
 end
 
 
+"""
+	mix(polymer, iter[, callbacks, seed])
+
+Return the result of iteratively applying `iter` random pivot moves to `polymer`.
+"""
 function mix end
 
 function mix(polymer::Polymer, iter::Int)

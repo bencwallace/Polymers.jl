@@ -184,6 +184,11 @@ end
 
 # ------------------------------ Other polymer properties ------------------------------ #
 
+"""
+	dist(polymer)
+
+Return the end-to-end distance of `polymer`.
+"""
 function dist(polymer::Polymer)
 	return norm(polymer[end])
 end

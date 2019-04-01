@@ -1,6 +1,12 @@
 using Plots
 
 
+"""
+	coordinates(polymer)
+
+Return the array whose `i`-th element is the array of `i`-th components of the elements of
+`polymer`.
+"""
 function coordinates(polymer::Polymer)
 	dim = polymer.dim
 	steps = polymer.steps
@@ -9,12 +15,54 @@ function coordinates(polymer::Polymer)
 end
 
 
-# To post a 2D polymer `poly` to Plotly:
-# >>> x, y = coordinates(poly)
-# >>> using Plotly
-# >>> p = Plotly.plot([Plotly.scatter(x=x, y=y)]);
-# >>> post(p)
-# For a 3D polymer, use scatter3d instead (with option mode="lines")
+"""
+	poly_plot(polymer, interactive=true; kwargs...)
+
+Display the plot of a 2- or 3-dimensional `Polymer`.
+
+If `interactive` is set to `true`, display an interactive plot generated with the Plotly
+backend.
+
+# Keyword arguments
+
+Any keyword arguments are passed on to the plotting function `Plots.plot`. Otherwise, the
+following defaults are used:
+
+* If `interactive=false`:
+ * `legend=false`;
+ * `grid=false`;
+ * `showaxis=false`;
+ * `foreground_color_text=:white`.
+* If `interactive=true`:
+ * `legend=false`
+
+# Examples
+
+Save the plot of `poly` as `poly.png`:
+
+```julia
+poly_plot(poly);
+savefig('poly.png')
+```
+
+Post the plot of a 2D `Polymer` `poly2d` to the Plotly cloud:
+
+```julia
+x, y = coordinates(poly2d)
+using Plotly
+p = Plotly.plot([Plotly.scatter(x=x, y=y)]);
+post(p)
+```
+
+Post the plot of a 3D `Polymer` `poly3d` to the Plotly cloud:
+
+```julia
+x, y, z = coordinates(poly3d)
+using Plotly
+p = Plotly.plot([Plotly.scatter3d(x=x, y=y, mode="lines)])
+post(p)
+```
+"""
 function poly_plot(polymer::Polymer, interactive=false; kwargs...)
 	dim = polymer.dim
 
@@ -33,6 +81,16 @@ function poly_plot(polymer::Polymer, interactive=false; kwargs...)
 end
 
 
+"""
+	anim(num_frames, init, file[, seed; kwargs...])
+
+Save an animation of `num_frames` successful pivot moves as a gif file specified by `file`.
+
+If `init` is a `Polymer`, then it is used as the initial state of the algorithm.
+If `init` is an integer, `Polymer(init)` is used as the initial state.
+
+Any keyword arguments are passed on to the plotting function `Plots.plot`.
+"""
 function anim end
 
 function anim(num_frames::Int, init::Int, file::String="./temp_polymer_anim.gif")
