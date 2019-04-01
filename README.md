@@ -10,7 +10,11 @@ Click on any of the (static) images below to view interactive examples (generate
 	<!-- 2D -->
 	<!-- Images -->
 	<tr>
-		<td><a href="https://plot.ly/~bencwallace/14/" target="_blank"><img src="examples/plot2d_bridge.png" style="width:100%" /></a></td>
+		<td>
+			<a href="https://plot.ly/~bencwallace/14/" target="_blank">
+			<img src="examples/plot2d_bridge.png" style="width:100%" />
+			</a>
+		</td>
 		<td><img src="examples/anim2d.gif" style="width:100%" /></td>
 	</tr>
 	<!-- Captions -->
@@ -21,7 +25,11 @@ Click on any of the (static) images below to view interactive examples (generate
 	<!-- 3D -->
 	<!-- Images -->
 	<tr>
-		<td><a href="https://plot.ly/~bencwallace/16/" target="_blank"><img src="examples/plot3d_bridge.png" style="width:100%" /></a></td>
+		<td>
+			<a href="https://plot.ly/~bencwallace/16/" target="_blank">
+			<img src="examples/plot3d_bridge.png" style="width:100%" />
+			</a>
+		</td>
 		<td><img src="examples/anim3d.gif" style="width:100%" /></td>
 	</tr>
 	<!-- Captions -->
@@ -108,8 +116,16 @@ The `bridge` function initializes a polymeer in the shape of a self-avoiding bri
 <table style="width:100%">
 	<!-- Images -->
 	<tr>
-		<td><a href="https://plot.ly/~bencwallace/12/" target="_blank"><img src="examples/plot2d_long.png" style="width:100%" /></a></td>
-		<td><a href="https://plot.ly/~bencwallace/14/" target="_blank"><img src="examples/plot2d_bridge.png" style="width:100%" /></a></td>
+		<td>
+			<a href="https://plot.ly/~bencwallace/12/" target="_blank">
+			<img src="examples/plot2d_long.png" style="width:100%" />
+			</a>
+		</td>
+		<td>
+			<a href="https://plot.ly/~bencwallace/14/" target="_blank">
+			<img src="examples/plot2d_bridge.png" style="width:100%" />
+			</a>
+		</td>
 	</tr>
 	<!-- Captions -->
 	<tr>
@@ -117,3 +133,11 @@ The `bridge` function initializes a polymeer in the shape of a self-avoiding bri
 		<td><font size="1">2D SAW initialized from a bridge</font></td>
 	</tr>
 </table>
+
+## To do
+
+The following would be nice additions and/or changes to this repository:
+
+* Implementations of any of the potential optimizations discussed above;
+* Interactive animations generated with Plotly;
+* "Safer" `Polymer` objects (`Polymer.data` is currently mutable, creating the potential for instantiation of `Polymer` objects with intersections).
