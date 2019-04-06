@@ -20,7 +20,7 @@ rand_pivot(polymer::Polymer) = rand_pivot(polymer, rand(UInt))
 
 function rand_pivot(polymer::Polymer, seed::Integer)
 	steps = length(polymer)
-	dim = length(polymer[1])
+	dim = polymer.dim
 
 	# Sample random pivot point step and rotation
 	Random.seed!(seed)
