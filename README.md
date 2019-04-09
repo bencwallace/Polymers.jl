@@ -1,4 +1,4 @@
-# Polymers
+# Polymers.jl
 
 A Julia implementation of the pivot algorithm: a Markov chain Monte carlo (MCMC) sampler for the self-avoiding walk (SAW) model of a linear polymer chain.
 
@@ -75,7 +75,7 @@ Run the following in the julia REPL:
 
 ```julia
 julia> using Pkg
-julia> Pkg.add("https://github.com/bencwallace/Polymer")
+julia> Pkg.add("https://github.com/bencwallace/Polymers.jl")
 ```
 
 ### Quick start
