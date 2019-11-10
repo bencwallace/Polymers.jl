@@ -143,6 +143,7 @@ The `bridge` function initializes a polymeer in the shape of a self-avoiding bri
 
 The following would be nice additions and/or changes to this repository:
 
+* Clean up excessive typing
 * Implementations of any of the potential optimizations discussed above;
 * Interactive animations generated with Plotly;
 * "Safer" `Polymer` objects (`Polymer.data` is currently mutable, creating the potential for instantiation of `Polymer` objects with intersections).
