@@ -20,22 +20,6 @@ struct Polymer
 	Polymer(polymer::Polymer) = new(polymer.steps, polymer.dim, copy(polymer.pt2idx), copy(polymer.data))
 
 	"""
-		Polymer(polymer::Polymer, indices::UnitRange{Int})
-
-	Return the sub-polymer of `Polymer` indexed by `indices`.
-	"""
-	# TODO: check if this needs to be used
-	function Polymer(polymer::Polymer, indices::UnitRange{Int})
-		new_polymer_data = polymer.data[UnitRange(indices[1]+1, indices[end]+1)]
-		return new(
-			length(indices) - 1,
-			polymer.dim,
-			Dict(pt => polymer.pt2idx[pt] - indices[1] + 1 for pt in new_polymer_data),
-			new_polymer_data
-		)
-	end
-
-	"""
 		Polymer(steps, dim)
 
 	Return a `Polymer` initialized as a straight line.
@@ -161,9 +145,6 @@ lastindex(polymer::Polymer) = length(polymer)
 getindex(polymer::Polymer, index::Int) = polymer.data[index+1]
 
 
-getindex(polymer::Polymer, indices::UnitRange{Int}) = Polymer(polymer, indices)
-
-
 function setindex!(polymer::Polymer, value, index::Int)
 	delete!(polymer.pt2idx, polymer.data[index+1])
 	polymer.data[index+1] = value
@@ -172,9 +153,6 @@ end
 
 
 copy(polymer::Polymer) = Polymer(polymer)
-
-
-Set(polymer::Polymer) = Set(polymer.data)
 
 
 # ------------------------------ Other polymer properties ------------------------------ #
