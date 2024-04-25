@@ -52,17 +52,19 @@ struct Polymer
 		steps = length(polymer)
 		point = polymer[step]		# Pivot point
 
-		new_polymer = copy(polymer)
-
 		# Try to parallelize this
+		new_points = []
 		for i in step+1:steps
 			new_point = point + Rot * (polymer[i] - point)
-			if 1 <= get(new_polymer.pt2idx, new_point, 0) <= step
+			if 1 <= get(polymer.pt2idx, new_point, 0) <= step
 				return polymer
 			end
+			push!(new_points, new_point)
+		end
 
-			# Note change of index
-			new_polymer[i] = new_point
+		new_polymer = copy(polymer)
+		for i in step+1:steps
+			new_polymer[i] = new_points[i - step]
 		end
 
 		return new_polymer
