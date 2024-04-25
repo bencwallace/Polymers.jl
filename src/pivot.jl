@@ -1,6 +1,18 @@
 using Random
 
 
+function try_pivot(polymer, step, i, Rot, ch)
+	point = polymer[step]
+	new_point = point + Rot * (polymer[i] - point)
+	if 1 <= get(polymer.pt2idx, new_point, 0) <= step
+		put!(ch, false)
+		return
+	end
+	put!(ch, true)
+	return i, new_point
+end
+
+
 """
 	pivot!(polymer, step, Rot)
 
@@ -10,18 +22,28 @@ function pivot!(polymer::Polymer, step::Int, Rot::AbstractMatrix{Int})
 	steps = length(polymer)
 	point = polymer[step]		# Pivot point
 
-	# TODO: Try to parallelize this
-	new_points = []
+	tasks = []
+	ch = Channel{Bool}(steps - step)
 	for i in step+1:steps
-		new_point = point + Rot * (polymer[i] - point)
-		if 1 <= get(polymer.pt2idx, new_point, 0) <= step
-			return polymer
-		end
-		push!(new_points, new_point)
+		push!(tasks, Threads.@spawn try_pivot(polymer, step, i, Rot, ch))
 	end
 
-	for i in step+1:steps
-		polymer[i] = new_points[i - step]
+	i = 0
+	# print("Tasks: ", length(tasks), '\n')		# Debugging
+	for t in tasks
+		r = take!(ch)
+		# print("i = ", i, ", r = ", r, '\n')		# Debugging
+		i += 1
+		if !r
+			return
+		end
+	end
+	# print("All tasks completed successfully\n")		# Debugging
+
+	for t in tasks
+		i, new_point = fetch(t)
+		# print("i = ", i, ", new_point = ", new_point, '\n')		# Debugging
+		polymer[i] = new_point
 	end
 end
 
