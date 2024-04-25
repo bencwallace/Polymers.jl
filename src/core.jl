@@ -7,6 +7,7 @@ include("helpers.jl")
 struct Polymer
 	steps::Int
 	dim::Int
+	pt2idx::Dict{Array{Int, 1}, Int}
 	data::Array{Array{Int, 1}, 1}
 
 	# ------------------------------- Inner constructors ------------------------------- #
@@ -16,16 +17,22 @@ struct Polymer
 
 	Return a copy of `polymer`.
 	"""
-	Polymer(polymer::Polymer) = new(polymer.steps, polymer.dim, copy(polymer.data))
+	Polymer(polymer::Polymer) = new(polymer.steps, polymer.dim, copy(polymer.pt2idx), copy(polymer.data))
 
 	"""
 		Polymer(polymer::Polymer, indices::UnitRange{Int})
 
 	Return the sub-polymer of `Polymer` indexed by `indices`.
 	"""
+	# TODO: check if this needs to be used
 	function Polymer(polymer::Polymer, indices::UnitRange{Int})
 		new_polymer_data = polymer.data[UnitRange(indices[1]+1, indices[end]+1)]
-		return new(length(indices)-1, polymer.dim, new_polymer_data)
+		return new(
+			length(indices) - 1,
+			polymer.dim,
+			Dict(pt => polymer.pt2idx[pt] - indices[1] + 1 for pt in new_polymer_data),
+			new_polymer_data
+		)
 	end
 
 	"""
@@ -33,7 +40,8 @@ struct Polymer
 
 	Return a `Polymer` initialized as a straight line.
 	"""
-	Polymer(steps::Int, dim::Int=2) = new(steps, dim, [i * basis(1, dim) for i in 0:steps])
+	Polymer(steps::Int, dim::Int=2) =
+		new(steps, dim, Dict(i * basis(1, dim) => i for i in 0:steps), [i * basis(1, dim) for i in 0:steps])
 
 	"""
 		Polymer(polymer, step, Rot)
@@ -44,13 +52,12 @@ struct Polymer
 		steps = length(polymer)
 		point = polymer[step]		# Pivot point
 
-		init_segment = Set(polymer[0:step])
 		new_polymer = copy(polymer)
 
 		# Try to parallelize this
 		for i in step+1:steps
 			new_point = point + Rot * (polymer[i] - point)
-			if new_point in init_segment
+			if 1 <= get(new_polymer.pt2idx, new_point, 0) <= step
 				return polymer
 			end
 
@@ -84,8 +91,9 @@ struct Polymer
 
 		steps = length(data) - 1
 		dim = length(data[1])
+		pt2idx = Dict(pt => i for (i, pt) in enumerate(data))
 
-		return new(steps, dim, data)
+		return new(steps, dim, pt2idx, data)
 	end
 
 	Polymer(steps::Int, dim::Int, data::Array{Array{Int, 1}, 1}) = Polymer(data)
@@ -155,7 +163,9 @@ getindex(polymer::Polymer, indices::UnitRange{Int}) = Polymer(polymer, indices)
 
 
 function setindex!(polymer::Polymer, value, index::Int)
+	delete!(polymer.pt2idx, polymer.data[index+1])
 	polymer.data[index+1] = value
+	polymer.pt2idx[value] = index + 1
 end
 
 
