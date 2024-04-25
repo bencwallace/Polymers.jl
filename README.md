@@ -2,7 +2,7 @@
 
 A Julia implementation of the pivot algorithm: a Markov chain Monte carlo (MCMC) sampler for the self-avoiding walk (SAW) model of a linear polymer chain.
 
-### Interactive examples
+## Interactive examples
 
 Click on any of the (static) images below to view interactive examples (generated with [Plotly](https://plot.ly/)).
 
@@ -38,28 +38,6 @@ Click on any of the (static) images below to view interactive examples (generate
 		<td><font size="1">Pivot algorithm in 3D for a walk with 10 000 steps</font></td>
 	</tr>
 </table>
-
-### Related
-
-My other repository, [*saw*](https://github.com/bencwallace/saw) includes a Python implementation of the pivot algorithm (as well as of the Metropolis-Hastings algorithm for simulating other models of linear polymers) includes a pedagogical explanation of self-avoiding walk and MCMC methods as well as an animated demonstration of the pivot algorithm in a Jupyter [notebook](https://github.com/bencwallace/saw/blob/master/saw-simulation.ipynb).
-
-*Polymers*, on the other hand, places emphasis on speed of computation for the pivot algorithm using [Julia](https://julialang.org/).
-
-## Optimization
-
-This implementation of the pivot algorithm is optimized in the following ways.
-
-* Lattice rotations are represented as `SparseArray` objects. Matrix multiplication by a sparse array can be performed in linear (rather than quadratic) time (in the dimension). The pivot algorithm performs linearly many (in the number of polymer steps) matrix multiplications *per iteration*. An additional advantage of sparse arrays is that they require far less memory.
-* Prior to pivoting, the initial (un-pivoted) segment of a walk is converted to a `Set` object, which is a type of hash table, allowing for constant time lookups (as opposed to linear or, at best, logarithmic time for searching an array or list). The conversion itself requires linear time but need only be performed once (per iteration), whereas a linear number of lookups is required. Thus, the speedup per iteration is from quadratic (or at least super-linear) to linear time.
-
-For faster mixing, we also recommend the following:
-
-* Initialize the polymer as a self-avoiding bridge using `bridge` (discussed more below).
-
-The following optimization would also be desirable.
-
-* Perform operations in place to avoid expensive copies
-* It should be possible to parallelize the pivot operation since every point on the tail (pivoted) segment of a walk is pivoted independently. This should lead to a roughly linear (in the number of available CPU cores) speedup.
 
 ## Usage
 
@@ -143,9 +121,6 @@ The `bridge` function initializes a polymeer in the shape of a self-avoiding bri
 
 ## To do
 
-The following would be nice additions and/or changes to this repository:
-
-* Clean up excessive typing
-* Implementations of any of the potential optimizations discussed above;
-* Interactive animations generated with Plotly;
-* "Safer" `Polymer` objects (`Polymer.data` is currently mutable, creating the potential for instantiation of `Polymer` objects with intersections).
+* It should be possible to parallelize the pivot operation since every point on the tail (pivoted) segment of a walk is pivoted independently. This should lead to a roughly linear (in the number of available CPU cores) speedup. However, note this requires some Julia implementation of (parallel) map-reduce (see [Folds.jl](https://juliafolds.github.io/Folds.jl/dev/)).
+* Hashing lattice sites in order to update the reverse index associated with a `Polymer` struct currently appears to be a bottleneck.
+* Interactive animations generated with Plotly.
