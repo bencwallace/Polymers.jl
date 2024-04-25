@@ -58,6 +58,7 @@ For faster mixing, we also recommend the following:
 
 The following optimization would also be desirable.
 
+* Perform operations in place to avoid expensive copies
 * It should be possible to parallelize the pivot operation since every point on the tail (pivoted) segment of a walk is pivoted independently. This should lead to a roughly linear (in the number of available CPU cores) speedup.
 
 ## Usage
