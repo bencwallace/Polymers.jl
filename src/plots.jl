@@ -114,7 +114,7 @@ function anim(num_frames::Int, poly::Polymer, file::String, seed::Integer; kwarg
 	# Build animation
 	for i = 1:num_frames
 		seed += 1
-		new_poly = rand_pivot(poly, seed)
+		new_poly = rand_pivot!(poly, seed)
 
 		# Only add new frames
 		if new_poly != poly

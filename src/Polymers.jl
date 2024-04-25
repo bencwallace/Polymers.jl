@@ -1,7 +1,7 @@
 module Polymers
 
 export Polymer, stairs, bridge
-export mix
+export mix!
 export dist
 export coordinates, poly_plot, anim
 

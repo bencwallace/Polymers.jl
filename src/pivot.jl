@@ -2,23 +2,40 @@ using Random
 
 
 """
-	Polymer(polymer, step, Rot)
+	pivot!(polymer, step, Rot)
 
-Return the polymer obtained by pivoting `polymer` via rotation matrix `Rot` at `step`.
+Pivot `polymer` via rotation matrix `Rot` at `step`.
 """
-pivot(polymer::Polymer, step::Int, Rot::AbstractMatrix{Int}) = Polymer(polymer, step, Rot)
+function pivot!(polymer::Polymer, step::Int, Rot::AbstractMatrix{Int})
+	steps = length(polymer)
+	point = polymer[step]		# Pivot point
+
+	# TODO: Try to parallelize this
+	new_points = []
+	for i in step+1:steps
+		new_point = point + Rot * (polymer[i] - point)
+		if 1 <= get(polymer.pt2idx, new_point, 0) <= step
+			return polymer
+		end
+		push!(new_points, new_point)
+	end
+
+	for i in step+1:steps
+		polymer[i] = new_points[i - step]
+	end
+end
 
 
 """
-	rand_pivot(polymer[, seed])
+	rand_pivot!(polymer[, seed])
 
-Return the `Polymer` obtained by applying a random pivot move to `polymer`.
+Apply a random pivot move to `polymer`.
 """
-function rand_pivot end
+function rand_pivot! end
 
-rand_pivot(polymer::Polymer) = rand_pivot(polymer, rand(UInt))
+rand_pivot!(polymer::Polymer) = rand_pivot!(polymer, rand(UInt))
 
-function rand_pivot(polymer::Polymer, seed::Integer)
+function rand_pivot!(polymer::Polymer, seed::Integer)
 	steps = length(polymer)
 	dim = polymer.dim
 
@@ -28,26 +45,26 @@ function rand_pivot(polymer::Polymer, seed::Integer)
 	Rot = rand_lattice_rot(dim, seed)
 
 	# Apply Pivot
-	return pivot(polymer, step, Rot)
+	pivot!(polymer, step, Rot)
 end
 
 
 """
-	mix(polymer, iter[, callbacks, seed])
+	mix!(polymer, iter[, callbacks, seed])
 
-Return the result of iteratively applying `iter` random pivot moves to `polymer`.
+Iteratively applies `iter` random pivot moves to `polymer`.
 """
-function mix end
+function mix! end
 
-mix(polymer::Polymer, iter::Int) = mix(polymer, iter, [])
+mix!(polymer::Polymer, iter::Int) = mix!(polymer, iter, [])
 
-function mix(polymer::Polymer, iter::Int, callbacks::Array)
-	return mix(polymer, iter, callbacks, rand(UInt))
+function mix!(polymer::Polymer, iter::Int, callbacks::Array)
+	return mix!(polymer, iter, callbacks, rand(UInt))
 end
 
-mix(polymer::Polymer, iter::Int, seed::Integer) = mix(polymer, iter, [], seed)
+mix!(polymer::Polymer, iter::Int, seed::Integer) = mix!(polymer, iter, [], seed)
 
-function mix(polymer::Polymer, iter::Int, callbacks::Array, seed::Integer)
+function mix!(polymer::Polymer, iter::Int, callbacks::Array, seed::Integer)
 	interval = 10 ^ floor(log10(iter / 10))
 
 	print("Mixing polymer\n")
@@ -65,9 +82,7 @@ function mix(polymer::Polymer, iter::Int, callbacks::Array, seed::Integer)
 		end
 
 		# Apply random pivot and increment seed
-		polymer = rand_pivot(polymer, seed)
+		rand_pivot!(polymer, seed)
 		seed += 1
 	end
-
-	return polymer
 end

@@ -28,33 +28,6 @@ struct Polymer
 		new(steps, dim, Dict(i * basis(1, dim) => i for i in 0:steps), [i * basis(1, dim) for i in 0:steps])
 
 	"""
-		Polymer(polymer, step, Rot)
-
-	Return the polymer obtained by pivoting `polymer` via rotation matrix `Rot` at `step`.
-	"""
-	function Polymer(polymer::Polymer, step::Int, Rot::AbstractMatrix{Int})
-		steps = length(polymer)
-		point = polymer[step]		# Pivot point
-
-		# Try to parallelize this
-		new_points = []
-		for i in step+1:steps
-			new_point = point + Rot * (polymer[i] - point)
-			if 1 <= get(polymer.pt2idx, new_point, 0) <= step
-				return polymer
-			end
-			push!(new_points, new_point)
-		end
-
-		new_polymer = copy(polymer)
-		for i in step+1:steps
-			new_polymer[i] = new_points[i - step]
-		end
-
-		return new_polymer
-	end
-
-	"""
 		Polymer(data)
 
 	Return the `Polymer` constructed manually from `data` if this is a valid `Polymer`.

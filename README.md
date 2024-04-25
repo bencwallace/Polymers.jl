@@ -94,7 +94,7 @@ Initialize a 2-dimensional polymer and run the pivot algorithm for 10000 iterati
 
 ```julia
 poly = Polymer(1000)
-poly = mix(poly, 10000)
+mix!(poly, 10000)
 ```
 
 Plot a polymer:
