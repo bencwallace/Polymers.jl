@@ -66,32 +66,33 @@ The following optimization would also be desirable.
 
 **Requirements** 
 
-* Developed using Julia 1.1.0
-* Interactive polymer plots require [Plotly](https://plot.ly/julia/)
+Julia 1.1-1.3 is required.
 
-**Installation**
-
-Run the following in the julia REPL:
-
-```julia
-julia> using Pkg
-julia> Pkg.add("https://github.com/bencwallace/Polymers.jl")
-```
+Specifically, this project was developed using Julia 1.1.0 and appears to work up to Julia 1.3.
+Later versions either don't produce walks correctly or don't plot them correctly.
 
 ### Quick start
+
+Start by activating the project environment in the Julia REPL:
+
+```
+julia> ]
+(v1.1) pkg> activate .
+(Polymers) pkg> instantiate
+```
 
 Initialize a 3-dimensional polymer as a straight line with 1000 steps:
 
 ```julia
 using Polymers
 
-poly3d = Polymer(1000, 3);
+poly3d = Polymer(1000, 3)
 ```
 
 Initialize a 2-dimensional polymer and run the pivot algorithm for 10000 iterations:
 
 ```julia
-poly = Polymer(1000);
+poly = Polymer(1000)
 poly = mix(poly, 10000)
 ```
 
@@ -109,7 +110,7 @@ poly_plot(poly, true)
 Produce an animation of the pivot algorithm run for 100 *successful* steps and save it to "pivot_anim.gif":
 
 ```julia
-anim(100, line(100), "pivot_anim.gif")
+anim(100, Polymer(100), "pivot_anim.gif")
 ```
 
 ### Other initializers

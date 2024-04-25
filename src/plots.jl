@@ -105,7 +105,7 @@ function anim(num_frames::Int, init::Polymer, file::String="./temp_polymer_anim.
 	return anim(num_frames, init, file, rand(UInt))
 end
 
-function anim(num_frames::Int, init::Polymer, file::String, seed::Integer; kwargs...)
+function anim(num_frames::Int, poly::Polymer, file::String, seed::Integer; kwargs...)
 	# Initialize animation with first frame
 	anim = Animation()
 	poly_plot(poly; kwargs...)
