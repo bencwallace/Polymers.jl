@@ -55,10 +55,10 @@ function rand_pivot!(polymer::Polymer, start_step, seed::Integer)
 			for j in pivot_steps
 				polymer[j] = new_points[j - step]
 			end
-			return step
+			return true, step
 		end
 	end
-	return start_step + Threads.nthreads() - 1
+	return false, start_step + Threads.nthreads() - 1
 end
 
 
@@ -81,7 +81,8 @@ function mix!(polymer::Polymer, iter::Int, callbacks::Array, seed::Integer)
 	interval = 10 ^ floor(log10(iter / 10))
 
 	print("Mixing polymer\n")
-	start_step = 2
+	start_step = 1
+	successes = 0
 	for i in 1:iter
 		# Diagnostics
 		if i % interval == 0
@@ -96,7 +97,10 @@ function mix!(polymer::Polymer, iter::Int, callbacks::Array, seed::Integer)
 		end
 
 		# Apply random pivot and increment seed
-		start_step = (1 + rand_pivot!(polymer, start_step, seed)) % length(polymer)
+		success, step = rand_pivot!(polymer, start_step, seed)
+		start_step = (step + 1) % length(polymer)
+		successes += success
 		seed += 1
 	end
+	print("Success rate: $(successes / iter)\n")
 end
