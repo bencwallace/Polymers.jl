@@ -10,9 +10,9 @@ function pivot!(polymer::Polymer, step::Int, Rot::AbstractMatrix{Int})
 	steps = length(polymer)
 	point = polymer[step]		# Pivot point
 
-	# TODO: Try to parallelize this
 	new_points = []
-	for i in step+1:steps
+	pivot_steps = step < steps ? (step+1:steps) : 0:step
+	for i in pivot_steps
 		new_point = point + Rot * (polymer[i] - point)
 		if 1 <= get(polymer.pt2idx, new_point, 0) <= step
 			return polymer
@@ -20,7 +20,7 @@ function pivot!(polymer::Polymer, step::Int, Rot::AbstractMatrix{Int})
 		push!(new_points, new_point)
 	end
 
-	for i in step+1:steps
+	for i in pivot_steps
 		polymer[i] = new_points[i - step]
 	end
 end
