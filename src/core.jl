@@ -7,8 +7,8 @@ include("helpers.jl")
 struct Polymer
 	steps::Int
 	dim::Int
-	pt2idx::Dict{Array{Int, 1}, Int}
-	data::Array{Array{Int, 1}, 1}
+	pt2idx::Dict{Vector{Int}, Int}
+	data::Array{Vector{Int}, 1}
 
 	# ------------------------------- Inner constructors ------------------------------- #
 
@@ -37,7 +37,7 @@ struct Polymer
 	validates `data` by checking for possible intersections or a potential dimension
 	mismatch (the latter verification is especially slow).
 	"""
-	function Polymer(data::Array{Array{Int, 1}, 1})
+	function Polymer(data::Array{Vector{Int}, 1})
 		if repeats(data)
 			error("Polymer cannot have intersections.")
 		end
@@ -55,7 +55,7 @@ struct Polymer
 		return new(steps, dim, pt2idx, data)
 	end
 
-	Polymer(steps::Int, dim::Int, data::Array{Array{Int, 1}, 1}) = Polymer(data)
+	Polymer(steps::Int, dim::Int, data::Array{Vector{Int}, 1}) = Polymer(data)
 end
 
 
@@ -83,7 +83,7 @@ function bridge(steps, dim=2)
 	e = [basis(i, dim) for i=1:dim]
 	options = [e..., -e[dim]]
 
-	summands = Array{Array{Int, 1}}(undef, steps+1)
+	summands = Array{Vector{Int}}(undef, steps+1)
 	summands[1] = zeros(Int, dim)
 
 	for i=2:steps+1
@@ -98,7 +98,7 @@ function bridge(steps, dim=2)
 		summands[i] = candidate
 	end
 
-	output = Array{Array{Int, 1}}(undef, steps+1)
+	output = Array{Vector{Int}}(undef, steps+1)
 	output[1] = summands[1]
 	for i=2:steps+1
 		output[i] = summands[i] + output[i-1]
