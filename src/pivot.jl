@@ -15,7 +15,7 @@ function pivot!(polymer::Polymer, step::Int, Rot::AbstractMatrix{Int})
 	for i in pivot_steps
 		new_point = point + Rot * (polymer[i] - point)
 		if 1 <= get(polymer.pt2idx, new_point, 0) <= step
-			return polymer
+			return false
 		end
 		push!(new_points, new_point)
 	end
@@ -23,6 +23,7 @@ function pivot!(polymer::Polymer, step::Int, Rot::AbstractMatrix{Int})
 	for i in pivot_steps
 		polymer[i] = new_points[i - step]
 	end
+	return true
 end
 
 
@@ -45,7 +46,7 @@ function rand_pivot!(polymer::Polymer, seed::Integer)
 	Rot = rand_lattice_rot(dim, seed)
 
 	# Apply Pivot
-	pivot!(polymer, step, Rot)
+	return pivot!(polymer, step, Rot)
 end
 
 
@@ -56,22 +57,24 @@ Iteratively applies `iter` random pivot moves to `polymer`.
 """
 function mix! end
 
-mix!(polymer::Polymer, iter::Int) = mix!(polymer, iter, [])
+mix!(polymer::Polymer, iter::Int, require_success::Bool=false) = mix!(polymer, iter, [], require_success)
 
-function mix!(polymer::Polymer, iter::Int, callbacks::Array)
-	return mix!(polymer, iter, callbacks, rand(UInt))
+function mix!(polymer::Polymer, iter::Int, callbacks::Array, require_success::Bool=false)
+	return mix!(polymer, iter, callbacks, require_success, rand(UInt))
 end
 
-mix!(polymer::Polymer, iter::Int, seed::Integer) = mix!(polymer, iter, [], seed)
+mix!(polymer::Polymer, iter::Int, seed::Integer, require_success::Bool=false) = mix!(polymer, iter, [], require_success, seed)
 
-function mix!(polymer::Polymer, iter::Int, callbacks::Array, seed::Integer)
+function mix!(polymer::Polymer, iter::Int, callbacks::Array, require_success::Bool, seed::Integer)
 	interval = 10 ^ floor(log10(iter / 10))
 
 	print("Mixing polymer\n")
-	for i in 1:iter
+	i = 1  # successful iterations
+	j = 1  # total iterations
+	while true
 		# Diagnostics
-		if i % interval == 0
-			print("Iteration $i\n")
+		if j % interval == 0
+			print("Iterations: $j / Successes: $i (success rate: $(i / j))\n")
 			if !isempty(callbacks)
 				print("Callbacks: ")
 				for item in callbacks
@@ -81,8 +84,18 @@ function mix!(polymer::Polymer, iter::Int, callbacks::Array, seed::Integer)
 			end
 		end
 
-		# Apply random pivot and increment seed
-		rand_pivot!(polymer, seed)
+		# Apply random pivot
+		success = rand_pivot!(polymer, seed)
+		i += Int(success)
+		j += 1
 		seed += 1
+
+		if require_success
+			if i == iter
+				break
+			end
+		elseif j == iter
+			break
+		end
 	end
 end
