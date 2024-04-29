@@ -7,7 +7,7 @@ include("helpers.jl")
 struct Polymer
 	steps::Int
 	dim::Int
-	pt2idx::Dict{Vector{Int}, Int}
+	pt2idx::Dict{Vector{Int}, Set{Int}}
 	data::Array{Vector{Int}, 1}
 
 	# ------------------------------- Inner constructors ------------------------------- #
@@ -17,7 +17,7 @@ struct Polymer
 
 	Return a copy of `polymer`.
 	"""
-	Polymer(polymer::Polymer) = new(polymer.steps, polymer.dim, copy(polymer.pt2idx), copy(polymer.data))
+	Polymer(polymer::Polymer) = new(polymer.steps, polymer.dim, deepcopy(polymer.pt2idx), copy(polymer.data))
 
 	"""
 		Polymer(steps, dim)
@@ -25,7 +25,7 @@ struct Polymer
 	Return a `Polymer` initialized as a straight line.
 	"""
 	Polymer(steps::Int, dim::Int=2) =
-		new(steps, dim, Dict(i * basis(1, dim) => i for i in 0:steps), [i * basis(1, dim) for i in 0:steps])
+		new(steps, dim, Dict(i * basis(1, dim) => Set(i) for i in 0:steps), [i * basis(1, dim) for i in 0:steps])
 
 	"""
 		Polymer(data)
@@ -58,6 +58,16 @@ struct Polymer
 	Polymer(steps::Int, dim::Int, data::Array{Vector{Int}, 1}) = Polymer(data)
 end
 
+function self_avoiding(polymer)
+	for i in 1:length(polymer)
+		for j in i+1:length(polymer)
+			if polymer[i] == polymer[j]
+				return false
+			end
+		end
+	end
+	return true
+end
 
 # --------------------------------- Outer constructors --------------------------------- #
 
@@ -119,9 +129,17 @@ getindex(polymer::Polymer, index::Int) = polymer.data[index+1]
 
 
 function setindex!(polymer::Polymer, value, index::Int)
-	delete!(polymer.pt2idx, polymer.data[index+1])
+	s = get(polymer.pt2idx, polymer.data[index+1], Set())
+	pop!(s, index + 1, nothing)
+	if isempty(s)
+		delete!(polymer.pt2idx, polymer.data[index+1])
+	end
 	polymer.data[index+1] = value
-	polymer.pt2idx[value] = index + 1
+	if value in keys(polymer.pt2idx)
+		push!(polymer.pt2idx[value], index + 1)
+	else
+		polymer.pt2idx[value] = Set([index + 1])
+	end
 end
 
 

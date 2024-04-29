@@ -14,8 +14,10 @@ function pivot!(polymer::Polymer, step::Int, Rot::AbstractMatrix{Int})
 	pivot_steps = step < steps ? (step+1:steps) : 0:step
 	for i in pivot_steps
 		new_point = point + Rot * (polymer[i] - point)
-		if 1 <= get(polymer.pt2idx, new_point, 0) <= step
-			return false
+		for i in get(polymer.pt2idx, new_point, Set(0))
+			if 1 <= i <= step
+				return false
+			end
 		end
 		push!(new_points, new_point)
 	end
@@ -97,5 +99,8 @@ function mix!(polymer::Polymer, iter::Int, callbacks::Array, require_success::Bo
 		elseif j == iter
 			break
 		end
+	end
+	if !self_avoiding(polymer)
+		throw(ArgumentError("Polymer is not self-avoiding"))
 	end
 end
