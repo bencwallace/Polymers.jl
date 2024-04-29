@@ -69,8 +69,8 @@ function mix!(polymer::Polymer, iter::Int, callbacks::Array, require_success::Bo
 	interval = 10 ^ floor(log10(iter / 10))
 
 	print("Mixing polymer\n")
-	i = 1  # successful iterations
-	j = 1  # total iterations
+	i = 0  # successful iterations
+	j = 0  # total iterations
 	while true
 		# Diagnostics
 		if j % interval == 0
