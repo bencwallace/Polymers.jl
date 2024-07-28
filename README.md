@@ -1,3 +1,6 @@
+> [!NOTE]
+> For an even faster implementation of the pivot algorithm, see [pivot](https://github.com/bencwallace/pivot).
+
 # Polymers.jl
 
 A Julia implementation of the pivot algorithm: a Markov chain Monte carlo (MCMC) sampler for the self-avoiding walk (SAW) model of a linear polymer chain.
