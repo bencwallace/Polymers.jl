@@ -14,7 +14,7 @@ Click on any of the (static) images below to view interactive examples (generate
 	<!-- Images -->
 	<tr>
 		<td>
-			<a href="https://plot.ly/~bencwallace/14/" target="_blank">
+			<a href="https://bcwallace.com/pivot2d_1e5_2.html" target="_blank">
 			<img src="examples/plot2d_bridge.png" style="width:100%" />
 			</a>
 		</td>
@@ -29,7 +29,7 @@ Click on any of the (static) images below to view interactive examples (generate
 	<!-- Images -->
 	<tr>
 		<td>
-			<a href="https://plot.ly/~bencwallace/16/" target="_blank">
+			<a href="https://bcwallace.com/pivot3d_1e5.html" target="_blank">
 			<img src="examples/plot3d_bridge.png" style="width:100%" />
 			</a>
 		</td>
