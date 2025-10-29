@@ -110,7 +110,7 @@ The `bridge` function initializes a polymeer in the shape of a self-avoiding bri
 			</a>
 		</td>
 		<td>
-			<a href="https://plot.ly/~bencwallace/14/" target="_blank">
+			<a href="https://bcwallace.com/pivot2d_1e5_2.html" target="_blank">
 			<img src="examples/plot2d_bridge.png" style="width:100%" />
 			</a>
 		</td>
